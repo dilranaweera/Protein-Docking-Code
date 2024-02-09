@@ -18,24 +18,18 @@
 
 
     receptor (arg)                  rigid part of the receptor (PDBQT)
-
     flex (arg)                      flexible side chains, if any (PDBQT)
-
     ligand (arg)                          ligand (PDBQT)
 
     center_x (arg)                              coordinate of the center
-
     center_y (arg)                        coordinate of the center
-
     center_z (arg)                              coordinate of the center
 
     size_x (arg)                    size in the X dimension (Angstroms)
-
     size_y (arg)                    size in the Y dimension (Angstroms)
-
     size_z (arg)                    size in the Z dimension (Angstroms)
 
-    Exhaustiveness: 32
+    Exhaustiveness: 32 (May or may not work with this value)
 
 
 6. Run this code:
