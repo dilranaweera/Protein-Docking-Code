@@ -1,3 +1,6 @@
+Help Code: 
+obabel -H
+
 General Code for PDB File conversions: 
 
 obabel [inputfile.name] -O [outputfile.name] [-OPTIONS]
