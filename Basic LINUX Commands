@@ -1,0 +1,9 @@
+File Transfers: 
+
+sftp username@server
+put [local to remote]
+get [remote to local]
+
+cd (change directory)
+ls (remote system contents)
+lls (local system contents)
