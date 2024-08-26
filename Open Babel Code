@@ -4,3 +4,7 @@ obabel -H
 General Code for PDB File conversions: 
 
 obabel [inputfile.name] -O [outputfile.name] [-OPTIONS]
+
+Ex. Adding Hydrogens to appropriate pH
+
+obabel refined_enzyme.pdb -O FINALrefinedenzyme.pdb -p 7
