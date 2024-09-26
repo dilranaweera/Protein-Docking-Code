@@ -9,12 +9,50 @@
 2. Locate appropriate ligand and receptor (should be listed within the files available in the folder). Ligands and receptors should both be .pdbqt files.
 
 
-3. Create a folder with all of the ligands and receptors that are needing to be docked. Shift into the made folder by changing directories after all of the files have been transferred.
+3. Create a folder with all of the ligands and receptors that are needing to be docked. Change directories into the newly created folder by changing directories after all of the files have been transferred.
 
 
-4. Input the following code in a terminal line:
+4. You must create a vi file that has the correct code for obtaining the atomic coordinates of whatever molecule you are wanting to dock. Here is the script: 
 
-5.
+# pdb-range_awk : find center and range of coords in PDB file
+# 'awk -f pdb-range_awk file.pdb >
+# NB: xyz=in columns 7-9 if chain ID is present, in 6-8 if not!!
+#
+BEGIN{ n=0 ; x = 0 ; y = 0 ; z = 0 }
+
+{ if ($1 == "ATOM" || $1 == "HETATM")  {
+n++
+#    x = $7 ; y = $8  ; z = $9
+    x = $6  ; y = $7 ; z = $8
+    xa += x ; ya += y  ; za +=z
+if( n == 1 ) { xmin = x ; ymin = y ; zmin = z 
+               xmax = x ; ymax = y ; zmax = z}
+if ( x < xmin ) xmin = x
+if ( y < ymin ) ymin = y
+if ( z < zmin ) zmin = z
+if ( x > xmax ) xmax = x
+if ( y > ymax ) ymax = y
+if ( z > zmax ) zmax = z
+
+}
+}
+END{
+print "...Read in ". n. "atoms"
+         xa = xa/n ; ya/n ; za/n
+print "...Center = ", xa, ya, za
+print "...x min, max, range = ", xmin, "-", xmax - xmin
+print "...y min, max, range = ", ymin, "-", ymax - ymin
+print "...z min, max, range = ", zmin, "-", zmax - zmin
+
+}
+
+Run this script to acquire the necessary coordinates for the docking: 
+
+awk -f ~user/directory/pdb-rangec_awk ~user/directory/inputfile
+
+5. Input the following code in a terminal line:
+
+5a.
 
 
     receptor = (arg)                  rigid part of the receptor (PDBQT)
@@ -32,11 +70,11 @@
     Exhaustiveness = 32 (May or may not work with this value)
 
 
-6. Run this code:
+5b. Run this code:
 
 
  `vina --config (file.name) --log (file.name) &`
 
    
 
-7. 3 Columns should appear: Affinity, RMSD u.b., and RMSD l.b.
+6. 3 Columns should appear: Affinity, RMSD u.b., and RMSD l.b.
