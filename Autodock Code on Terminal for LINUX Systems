@@ -1,17 +1,8 @@
 ## Process for Autodock on Vina (on LINUX systems):
 
-1. Find Corresponding Files:
-
-
-       cd (directory)
-
-
+1. Find the right receptor and ligand.
 2. Locate appropriate ligand and receptor (should be listed within the files available in the folder). Ligands and receptors should both be .pdbqt files.
-
-
 3. Create a folder with all of the ligands and receptors that are needing to be docked. Change directories into the newly created folder by changing directories after all of the files have been transferred.
-
-
 4. You must create a vi file that has the correct code for obtaining the atomic coordinates of whatever molecule you are wanting to dock. Here is the script: 
 
 # pdb-range_awk : find center and range of coords in PDB file
@@ -67,14 +58,12 @@ awk -f ~user/directory/pdb-rangec_awk ~user/directory/inputfile
     size_y = (arg)                    size in the Y dimension (Angstroms)
     size_z = (arg)                    size in the Z dimension (Angstroms)
 
-    Exhaustiveness = 32 (May or may not work with this value)
+    exhaustiveness = 32 (May or may not work with this value)
 
 
-5b. Run this code:
+5b. Run this code on a terminal line:
 
+vina --config (file.name) --log (file.name) &
 
- `vina --config (file.name) --log (file.name) &`
-
-   
 
 6. 3 Columns should appear: Affinity, RMSD u.b., and RMSD l.b.
