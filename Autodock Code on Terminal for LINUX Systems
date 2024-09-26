@@ -41,7 +41,7 @@ Run this script to acquire the necessary coordinates for the docking:
 
 awk -f ~user/directory/pdb-rangec_awk ~user/directory/inputfile
 
-5. Input the following code in a terminal line:
+5. Input the following code in a terminal line (Exhaustiveness might have to be adjusted):
 
 5a.
 
@@ -58,7 +58,7 @@ awk -f ~user/directory/pdb-rangec_awk ~user/directory/inputfile
     size_y = (arg)                    size in the Y dimension (Angstroms)
     size_z = (arg)                    size in the Z dimension (Angstroms)
 
-    exhaustiveness = 32 (May or may not work with this value)
+    exhaustiveness = 32
 
 
 5b. Run this code on a terminal line:
