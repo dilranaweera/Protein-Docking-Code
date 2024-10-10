@@ -1,0 +1,9 @@
+1. Record ligand and macromolecule
+
+2. Initialize conda environment:
+
+conda activate /data1/projects/conda/AMDock
+
+3. Run AMDock
+
+AMDock & 
