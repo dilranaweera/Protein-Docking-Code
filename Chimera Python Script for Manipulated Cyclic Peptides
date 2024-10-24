@@ -2,7 +2,7 @@ import itertools
 from chimera import runCommand
 
 # Base cyclic peptide PDB file
-base_pdb = "cyclic_peptide.pdb"
+base_pdb = "Conformer3D_cyclicRGDfV_CID44409460.pdb"
 runCommand(f"open {base_pdb}")
 
 # Define the positions of RGD residues
