@@ -3,15 +3,15 @@ import pymol
 from pymol import cmd
 
 # Base cyclic peptide PDB file (this is your input structure)
-base_pdb = "cyclic_peptide.pdb"  
+base_pdb = "Conformer3D_cyclicRGDfV_CID44409460.pdb"  
 
 # Load base peptide structure
 cmd.load(base_pdb, "peptide")
 
 # Define your specific RGD residues to manipulate (number positions in the peptide)
-# Adjust based on your peptide sequence (example positions for R, G, D are 5, 6, 7)
-positions = [5, 6, 7]
-residues = ["R", "G", "D"]
+# Adjust based on your peptide sequence (example positions for R, G, D are 2, 4, 3)
+positions = [2, 3, 4]
+residues = ["R", "D", "G"]
 
 # Generate all possible combinations of RGD in those 3 positions
 combinations = itertools.product(residues, repeat=3)
