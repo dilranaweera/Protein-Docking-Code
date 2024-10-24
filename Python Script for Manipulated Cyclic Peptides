@@ -1,0 +1,39 @@
+import itertools
+import pymol
+from pymol import cmd
+
+# Base cyclic peptide PDB file (this is your input structure)
+base_pdb = "cyclic_peptide.pdb"  
+
+# Load base peptide structure
+cmd.load(base_pdb, "peptide")
+
+# Define your specific RGD residues to manipulate (number positions in the peptide)
+# Adjust based on your peptide sequence (example positions for R, G, D are 5, 6, 7)
+positions = [5, 6, 7]
+residues = ["R", "G", "D"]
+
+# Generate all possible combinations of RGD in those 3 positions
+combinations = itertools.product(residues, repeat=3)
+
+# Loop through each combination
+for index, combo in enumerate(combinations):
+    # Create a new object for each combination
+    new_object = f"peptide_{index}"
+    
+    # Create a copy of the original structure to manipulate
+    cmd.create(new_object, "peptide")
+    
+    # Set the specific residues in the cyclic peptide
+    for pos, new_res in zip(positions, combo):
+        cmd.wizard("mutagenesis")
+        cmd.get_wizard().set_mode(new_res)
+        cmd.get_wizard().do_select(f"peptide and resi {pos}")
+        cmd.get_wizard().apply()
+        cmd.wizard("done")
+    
+    # Save the new PDB structure
+    output_pdb = f"output_peptide_{index}.pdb"
+    cmd.save(output_pdb, new_object)
+
+cmd.quit()
