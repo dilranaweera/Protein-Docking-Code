@@ -1,1 +1,22 @@
+import itertools
+from chimera import runCommand
 
+# Base cyclic peptide PDB file
+base_pdb = "cyclic_peptide.pdb"
+runCommand(f"open {base_pdb}")
+
+# Define the positions of RGD residues
+positions = [5, 6, 7]
+residues = ["R", "G", "D"]
+
+# Generate all possible combinations of RGD residues
+combinations = itertools.product(residues, repeat=3)
+
+# Loop through each combination and mutate residues
+for index, combo in enumerate(combinations):
+    for pos, res in zip(positions, combo):
+        runCommand(f"swapaa {res} #{pos}")
+    
+    # Save each modified cyclic peptide as a new PDB file
+    output_pdb = f"output_peptide_{index}.pdb"
+    runCommand(f"write #0 {output_pdb}")
