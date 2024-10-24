@@ -6,10 +6,10 @@ conda activate /data1/projects/conda/AMDock
 echo $SHELL
 conda init bash
 
-If you need help, vi ~kuczera/work/dil/README
-You may need to:
+If you need help, you may need to access the vi files:
 
 vi ~kuczera/work/dil/R* 
+vi ~kuczera/work/dil/README
 
 3. Run AMDock
 
