@@ -1,1 +1,3 @@
-Code for Using LigPlot ++
+Starting up:
+
+java -cp /Users/dilrana/desktop/LigPlus/ -jar /Users/dilrana/desktop/LigPlus/LigPlus.jar
