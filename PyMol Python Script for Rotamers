@@ -1,0 +1,30 @@
+import itertools
+import pymol
+from pymol import cmd
+
+cmd.load("cyclic_peptide.pdb")
+
+positions = [5, 6, 7]
+residues = ["R", "G", "D"]
+combinations = itertools.product(residues, repeat=3)
+
+for index, combo in enumerate(combinations):
+    new_object = f"peptide_{index}"
+    cmd.create(new_object, "peptide")
+    
+    for pos, new_res in zip(positions, combo):
+        cmd.wizard("mutagenesis")
+        cmd.get_wizard().set_mode(new_res)
+        cmd.get_wizard().do_select(f"peptide and resi {pos}")
+
+        # Rotate through rotamers
+        for rotamer in range(cmd.get_wizard().count_rotamers()):
+            cmd.get_wizard().select_rotamer(rotamer)
+            cmd.get_wizard().apply()
+
+            output_pdb = f"output_peptide_{index}_rotamer_{rotamer}.pdb"
+            cmd.save(output_pdb, new_object)
+    
+    cmd.wizard("done")
+
+cmd.quit()
