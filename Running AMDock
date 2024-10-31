@@ -1,15 +1,29 @@
-1. Record ligand and macromolecule
+1. Initialize conda environment:
 
-2. Initialize conda environment:
+source ~/.bashrc
 
+NOTE: The main directory line thing will have a (base) in front of the user and what work area the user is in along with directories. For example:
+(base) [user@thing-systemname directory1] $
+
+2. Next, run conda code:
+
+conda
 conda activate /data1/projects/conda/AMDock
+
+NOTE: From here, the main directory line should say: 
+(/data1/projects/conda/AMDock) [user@thing-systemname directory1] $
+
+You may have to input these commands:
 echo $SHELL
 conda init bash
 
 If you need help, you may need to access the vi files:
-
 vi ~kuczera/work/dil/R* 
 vi ~kuczera/work/dil/README
+
+You may have to edit the vi file, but check with someone before:
+vi ~/.bashrc
+
 
 3. Run AMDock
 
