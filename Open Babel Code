@@ -8,3 +8,6 @@ obabel [inputfile.name] -O [outputfile.name] [-OPTIONS]
 Ex. Adding Hydrogens to appropriate pH
 
 obabel refined_enzyme.pdb -O FINALrefinedenzyme.pdb -p 7
+
+Converting from multipel pdb-->pdbqt:
+obabel -ipdb *.pdb -opdbqt --gen3d -h -m
