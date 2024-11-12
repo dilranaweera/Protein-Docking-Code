@@ -37,3 +37,53 @@ for index, combo in enumerate(combinations):
     cmd.save(output_pdb, new_object)
 
 cmd.quit()
+
+Other Code from Perplexity: 
+
+import random
+
+# Define amino acids (excluding the one to be replaced)
+amino_acids = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS', 
+               'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
+
+def read_pdb(file_path):
+    with open(file_path, 'r') as file:
+        return file.readlines()
+
+def write_pdb(file_path, pdb_data):
+    with open(file_path, 'w') as file:
+        file.writelines(pdb_data)
+
+def mutate_residue(pdb_data, target_residue, target_position):
+    new_residue = random.choice([aa for aa in amino_acids if aa != target_residue])
+    modified_data = []
+    
+    for line in pdb_data:
+        if line.startswith('ATOM') or line.startswith('HETATM'):
+            residue_name = line[17:20].strip()
+            residue_position = int(line[22:26])
+            
+            if residue_position == target_position and residue_name == target_residue:
+                modified_line = line[:17] + new_residue + line[20:]
+                modified_data.append(modified_line)
+            else:
+                modified_data.append(line)
+        else:
+            modified_data.append(line)
+    
+    return modified_data, new_residue
+
+def main():
+    input_file = 'input.pdb'
+    output_file = 'output_mutated.pdb'
+    target_residue = 'GLY'  # Example: targeting glycine
+    target_position = 23    # Example: position 23
+
+    pdb_data = read_pdb(input_file)
+    modified_data, new_residue = mutate_residue(pdb_data, target_residue, target_position)
+    write_pdb(output_file, modified_data)
+
+    print(f"Mutation complete: {target_residue}{target_position} -> {new_residue}{target_position}")
+
+if __name__ == "__main__":
+    main()
