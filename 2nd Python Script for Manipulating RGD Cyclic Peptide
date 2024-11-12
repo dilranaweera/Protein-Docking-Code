@@ -33,9 +33,9 @@ def mutate_residue(pdb_data, target_residue, target_position):
 
 def main():
     input_file = 'input.pdb'
-    output_file = 'output_mutated.pdb'
-    target_residue = 'GLY'  # Example: targeting glycine
-    target_position = 23    # Example: position 23
+    output_file = 'RGDcyclopeptide1_mutated.pdb'
+    target_residue = 'GLY'
+    target_position = 2
 
     pdb_data = read_pdb(input_file)
     modified_data, new_residue = mutate_residue(pdb_data, target_residue, target_position)
