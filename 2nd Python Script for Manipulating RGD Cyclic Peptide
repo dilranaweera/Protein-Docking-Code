@@ -64,39 +64,39 @@ def check_binding_sites(pdb_data, target_position, threshold=7.0):
                 return False  # Too close to ligand, might disrupt binding
     return True
 
-def mutate_residue(pdb_data, target_residue, target_position):
-    new_residue = random.choice([aa for aa in amino_acids if aa != target_residue])
-    modified_data = []
+# def mutate_residue(pdb_data, target_residue, target_position):
+#    new_residue = random.choice([aa for aa in amino_acids if aa != target_residue])
+#    modified_data = []
     
-    if not check_binding_sites(pdb_data, target_position):
-        print("Mutation might disrupt ligand binding site. Aborting.")
-        return pdb_data, target_residue
+#    if not check_binding_sites(pdb_data, target_position):
+#        print("Mutation might disrupt ligand binding site. Aborting.")
+#        return pdb_data, target_residue
 
-    for line in pdb_data:
-        if line.startswith('ATOM') or line.startswith('HETATM'):
-            try:
-                residue_name = line[17:20].strip()
-                residue_position = int(line[22:26])
+#    for line in pdb_data:
+#        if line.startswith('ATOM') or line.startswith('HETATM'):
+#            try:
+#                residue_name = line[17:20].strip()
+#                residue_position = int(line[22:26])
                 
-                if residue_position == target_position and residue_name == target_residue:
-                    if new_residue in amino_acid_backbone_coords:
-                        new_coords = amino_acid_backbone_coords[new_residue][0]  # Using first atom as reference
-                        adjusted_line = adjust_coordinates(line, new_coords)
-                        modified_line = adjusted_line[:17] + new_residue + adjusted_line[20:]
-                        modified_data.append(modified_line)
-                    else:
-                        print(f"Warning: No coordinate data for {new_residue}. Using original coordinates.")
-                        modified_line = line[:17] + new_residue + line[20:]
-                        modified_data.append(modified_line)
-                else:
-                    modified_data.append(line)
-            except ValueError as e:
-                print(f"Error parsing line: {line.strip()}. Error: {e}")
-                modified_data.append(line)
-        else:
-            modified_data.append(line)
+#                if residue_position == target_position and residue_name == target_residue:
+#                    if new_residue in amino_acid_backbone_coords:
+#                        new_coords = amino_acid_backbone_coords[new_residue][0]  # Using first atom as reference
+#                       adjusted_line = adjust_coordinates(line, new_coords)
+#                       modified_line = adjusted_line[:17] + new_residue + adjusted_line[20:]
+#                        modified_data.append(modified_line)
+#                   else:
+#                       print(f"Warning: No coordinate data for {new_residue}. Using original coordinates.")
+#                        modified_line = line[:17] + new_residue + line[20:]
+#                        modified_data.append(modified_line)
+#                else:
+#                    modified_data.append(line)
+#            except ValueError as e:
+#               print(f"Error parsing line: {line.strip()}. Error: {e}")
+#               modified_data.append(line)
+#       else:
+#            modified_data.append(line)
     
-    return modified_data, new_residue
+#    return modified_data, new_residue
 
 def main():
     input_file = 'rgdfm1.pdb'
