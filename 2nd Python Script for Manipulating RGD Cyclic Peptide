@@ -9,8 +9,6 @@ amino_acids = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'HIS',
 # Define amino acids with their approximate backbone coordinates
 amino_acid_backbone_coords = {
     'ALA': np.array([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [1.0, 1.0, 0.0], [0.0, 1.0, 0.0]]),
-    'ARG': np.array([[0.0, 0.0, 0.0], [1.1, 0.1, 0.0], [1.1, 0.8, 0.0], [0.0, 0.8, 0.0]]),
-    # Add more amino acids here...
 }
 
 def read_pdb(file_path):
@@ -41,7 +39,7 @@ def adjust_coordinates(line, new_coords):
         print(f"Error adjusting coordinates: {e}")
         return line
 
-def check_binding_sites(pdb_data, target_position, threshold=5.0):
+def check_binding_sites(pdb_data, target_position, threshold=7.0):
     ligand_atoms = []
     target_atoms = []
 
@@ -103,8 +101,8 @@ def mutate_residue(pdb_data, target_residue, target_position):
 def main():
     input_file = 'rgdfm1.pdb'
     output_file = 'output_mutrgdfm1.pdb'
-    target_residue = 'GLY'  
-    target_position = 23 
+    target_residue = 'GLY'
+    target_position = 5002
 
     pdb_data = read_pdb(input_file)
     if pdb_data:
