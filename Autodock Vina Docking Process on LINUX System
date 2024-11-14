@@ -46,17 +46,17 @@ awk -f ~user/directory/pdb-rangec_awk ~user/directory/inputfile
 5a.
 
 
-    receptor = (arg)                  rigid part of the receptor (PDBQT)
-    flex = (arg)                      flexible side chains, if any (PDBQT)
-    ligand = (arg)                          ligand (PDBQT)
+    receptor = (arg)                  # rigid part of the receptor (PDBQT)
+    flex = (arg)                     # flexible side chains, if any (PDBQT)
+    ligand = (arg)                   # ligand (PDBQT)
 
-    center_x = (arg)                              coordinate of the center
-    center_y = (arg)                        coordinate of the center
-    center_z = (arg)                              coordinate of the center
+    center_x = (arg)                           #   coordinate of the center
+    center_y = (arg)                     #   coordinate of the center
+    center_z = (arg)                            #  coordinate of the center
 
-    size_x = (arg)                    size in the X dimension (Angstroms)
-    size_y = (arg)                    size in the Y dimension (Angstroms)
-    size_z = (arg)                    size in the Z dimension (Angstroms)
+    size_x = (arg)                   # size in the X dimension (Angstroms)
+    size_y = (arg)                   # size in the Y dimension (Angstroms)
+    size_z = (arg)                   # size in the Z dimension (Angstroms)
 
     exhaustiveness = 32
 
