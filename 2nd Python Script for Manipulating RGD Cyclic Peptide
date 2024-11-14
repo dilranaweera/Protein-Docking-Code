@@ -1,6 +1,6 @@
 import random
 
-# Define amino acids (excluding the one to be replaced)
+# Define amino acids (excluding the one to be replaced; in this case: GLY)
 amino_acids = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'HIS', 
                'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
 
@@ -32,8 +32,8 @@ def mutate_residue(pdb_data, target_residue, target_position):
     return modified_data, new_residue
 
 def main():
-    input_file = 'cyclicRGDfVpeptide.pdb'
-    output_file = 'RGDcyclopeptide1_mutated.pdb'
+    input_file = 'rgdfm1.pdb'
+    output_file = 'RGDcyclopeptide1_mut.pdb'
     target_residue = 'GLY'
     target_position = 2
 
