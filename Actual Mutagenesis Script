@@ -743,53 +743,55 @@ scoring best suites your problem.
 
 # Code Number 2:
 
-# At the top of the script, define all amino acids
-all_amino_acids = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
+# # At the top of the script, define all amino acids
+# all_amino_acids = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
 
-def scanning(pdb_filename, partners, interface_cutoff=8.0, output=False, trials=1, trial_output=''):
-    # ... (keep the existing setup code)
+# def scanning(pdb_filename, partners, interface_cutoff=8.0, output=False, trials=1, trial_output=''):
+#     # ... (keep the existing setup code)
 
-    for trial in range(trials):
-        ddG_mutants = {}
-        for i in range(1, pose.total_residue() + 1):
-            if interface.is_interface(i) == True:
-                ddG_mutants[i] = {}
-                original_aa = pose.sequence()[i-1]
-                for mutant_aa in all_amino_acids:
-                    if mutant_aa != original_aa:
-                        filename = ''
-                        if output:
-                            filename = f"{pose.pdb_info().name()[:-4]}_{original_aa}{str(pose.pdb_info().number(i))}->{mutant_aa}"
+#     for trial in range(trials):
+#         ddG_mutants = {}
+#         for i in range(1, pose.total_residue() + 1):
+#             if interface.is_interface(i) == True:
+#                 ddG_mutants[i] = {}
+#                 original_aa = pose.sequence()[i-1]
+#                 for mutant_aa in all_amino_acids:
+#                     if mutant_aa != original_aa:
+#                         filename = ''
+#                         if output:
+#                             filename = f"{pose.pdb_info().name()[:-4]}_{original_aa}{str(pose.pdb_info().number(i))}->{mutant_aa}"
                         
-                        ddG_mutants[i][mutant_aa] = interface_ddG(pose, i, mutant_aa, movable_jumps, ddG_scorefxn, interface_cutoff, filename)
+#                         ddG_mutants[i][mutant_aa] = interface_ddG(pose, i, mutant_aa, movable_jumps, ddG_scorefxn, interface_cutoff, filename)
 
-        # Output results
-        print('='*80)
-        print('Trial', str(trial + 1))
-        print('Mutants (PDB numbered)\t\"ddG\" (interaction dependent score change)')
-        residues = list(ddG_mutants.keys())
-        residues.sort()
+#         # Output results
+#         print('='*80)
+#         print('Trial', str(trial + 1))
+#         print('Mutants (PDB numbered)\t\"ddG\" (interaction dependent score change)')
+#         residues = list(ddG_mutants.keys())
+#         residues.sort()
         
-        display = []
-        for i in residues:
-            original_aa = pose.sequence()[i-1]
-            pdb_num = str(pose.pdb_info().number(i))
-            for mutant_aa, ddG in ddG_mutants[i].items():
-                display.append(f"{original_aa}{pdb_num}->{mutant_aa}\t{ddG}\n")
+#         display = []
+#         for i in residues:
+#             original_aa = pose.sequence()[i-1]
+#             pdb_num = str(pose.pdb_info().number(i))
+#             for mutant_aa, ddG in ddG_mutants[i].items():
+#                 display.append(f"{original_aa}{pdb_num}->{mutant_aa}\t{ddG}\n")
         
-        print(''.join(display)[:-1])
-        print('='*80)
+#         print(''.join(display)[:-1])
+#         print('='*80)
 
-        # Write to file
-        with open(f"{trial_output}_{trial + 1}.txt", 'w') as f:
-            f.writelines(display)
+#         # Write to file
+#         with open(f"{trial_output}_{trial + 1}.txt", 'w') as f:
+#             f.writelines(display)
 
-def interface_ddG(pose, mutant_position, mutant_aa, movable_jumps, scorefxn='', cutoff=8.0, out_filename=''):
-    # ... (keep the existing code, no changes needed here)
+# def interface_ddG(pose, mutant_position, mutant_aa, movable_jumps, scorefxn='', cutoff=8.0, out_filename=''):
+#     # ... (keep the existing code, no changes needed here)
 
-# The mutate_residue function can remain unchanged
+# # The mutate_residue function can remain unchanged
 
-# Update the main function or script execution part to call the modified scanning function
-if __name__ == "__main__":
-    # ... (setup code)
-    scanning(pdb_filename, partners, interface_cutoff=8.0, output=True, trials=1, trial_output='mutant_scan')
+# # Update the main function or script execution part to call the modified scanning function
+# if __name__ == "__main__":
+#     # ... (setup code)
+#     scanning(pdb_filename, partners, interface_cutoff=8.0, output=True, trials=1, trial_output='mutant_scan')
+
+#Tej filtered code ################
