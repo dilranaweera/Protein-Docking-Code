@@ -8,13 +8,13 @@ from pyrosetta import *
 init(extra_options = "-constant_seed") #replace -constant_seed with?
 import os; os.chdir('.test.output')
 
-def scanning(pdb_filename, partners, mutant_aa = 'A',
+def scanning(rgdfm1.pdb, partners, mutant_aa = 'A',
         interface_cutoff = 8.0, output = False,
         trials = 1, trial_output = ''):
     
 
     pose = Pose()
-    pose_from_file(pose, pdb_filename)
+    pose_from_file(pose, rgdfm1.pdb)
 
 
     dock_jump = 1
