@@ -15,33 +15,6 @@ def scanning(rgdfm1.pdb, partners, mutant_aa = 'A',
 
     pose = Pose()
     pose_from_file(pose, rgdfm1.pdb) #Will this one or the other pose function below work?
-
-############
-#Adding extra comment to show dil how command line git works
-#ANother line cause why not
-
-# Import necessary PyRosetta modules
-from pyrosetta import pose_from_pdb, Pose
-from pyrosetta.rosetta.core.scoring import ScoreFunction
-from pyrosetta.rosetta.protocols.moves import PyMOLMover
-
-def main():
-    # Initialize PyRosetta 
-    # WARNING: Remove -constant_seed for production runs!
-    pyrosetta.init(extra_options="-constant_seed")
-
-    # Change to output directory (common in scientific computing)
-    os.chdir('.test.output')
-
-    # Create a pose from a PDB file
-    pose = pose_from_pdb('input_protein.pdb')
-
-    # Save modified pose
-    pose.dump_pdb('output_protein.pdb')
-
-if __name__ == "__main__":
-    main()                
-################
         
     dock_jump = 1
     movable_jumps = Vector1([dock_jump])
