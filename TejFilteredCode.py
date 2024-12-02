@@ -267,6 +267,3 @@ def scanning_analysis(trial_output):
     hotspots = [mutants[i] for i in significant]
 
     return hotspots
-
-
-    print "="*80 #allows to view output results more easily; don't know where this goes.
