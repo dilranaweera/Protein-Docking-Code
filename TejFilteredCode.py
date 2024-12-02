@@ -17,6 +17,8 @@ def scanning(rgdfm1.pdb, partners, mutant_aa = 'A',
     pose_from_file(pose, rgdfm1.pdb) #Will this one or the other pose function below work?
 
 ############
+#Adding extra comment to show dil how command line git works
+#ANother line cause why not
 
 # Import necessary PyRosetta modules
 from pyrosetta import pose_from_pdb, Pose
