@@ -1,4 +1,11 @@
-# Pose Creation
+# make a pose
+
+PoseFromSequenceMover name="(&string;)" fasta="(&string;)"
+        sequence="(&string;)" use_all_in_fasta="(false &bool;)"
+        extended="(false &bool;)" residue_type_set="(fa_standard &string;)" />
+
+
+# Make Pose Copy
 
 start = pose_from_pdb("test.pdb")
 test = Pose()
