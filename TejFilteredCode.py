@@ -9,7 +9,7 @@ from pyrosetta import *
 init() # (extra options = "-seed ####") also an option
 import os; os.chdir('.test.output')
 
-def scanning(rgdfm1.pdb, partners, mutant_aa = 'A',
+def scanning(rgdfm1.pdb, A, mutant_aa = 'A', 
         interface_cutoff = 8.0, output = False,
         trials = 1, trial_output = ''):
     
