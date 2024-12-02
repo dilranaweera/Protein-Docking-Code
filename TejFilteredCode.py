@@ -5,7 +5,7 @@ from rosetta.protocols.scoring import Interface
 from rosetta import *
 from pyrosetta import *
 
-init(extra_options = "-constant_seed")
+init(extra_options = "-constant_seed") #what exactly needs to be inputted here? what does after prodcution runs really mean?
 import os; os.chdir('.test.output')
 
 def scanning(pdb_filename, partners, mutant_aa = 'A',
