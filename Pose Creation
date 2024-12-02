@@ -1,0 +1,16 @@
+# Pose Creation
+
+start = pose_from_pdb("test.pdb")
+test = Pose()
+test.assign(start)
+pmm.keep_history(True)
+
+# or...
+
+start.pdb_info().name("start")
+test.pdb_info().name("test")
+from pyrosetta.teaching import PyMOLMover
+pmm = PyMOLMover()
+pmm.apply(start)
+pmm.apply(test)
+pmm.keep_history(True)
