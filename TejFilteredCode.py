@@ -14,9 +14,33 @@ def scanning(rgdfm1.pdb, partners, mutant_aa = 'A',
     
 
     pose = Pose()
-    pose_from_file(pose, rgdfm1.pdb)
+    pose_from_file(pose, rgdfm1.pdb) #Will this one or the other pose function below work?
 
+############
 
+# Import necessary PyRosetta modules
+from pyrosetta import pose_from_pdb, Pose
+from pyrosetta.rosetta.core.scoring import ScoreFunction
+from pyrosetta.rosetta.protocols.moves import PyMOLMover
+
+def main():
+    # Initialize PyRosetta 
+    # WARNING: Remove -constant_seed for production runs!
+    pyrosetta.init(extra_options="-constant_seed")
+
+    # Change to output directory (common in scientific computing)
+    os.chdir('.test.output')
+
+    # Create a pose from a PDB file
+    pose = pose_from_pdb('input_protein.pdb')
+
+    # Save modified pose
+    pose.dump_pdb('output_protein.pdb')
+
+if __name__ == "__main__":
+    main()                
+################
+        
     dock_jump = 1
     movable_jumps = Vector1([dock_jump])
     protocols.docking.setup_foldtree(pose, partners, movable_jumps)
@@ -47,12 +71,12 @@ def scanning(rgdfm1.pdb, partners, mutant_aa = 'A',
     for trial in range( trials ):
 
         ddG_mutants = {}
-        for i in range(1, pose.total_residue() + 1):
+        for i in range(1, pose.total_residue() + 1): #how do I only specify 1 residue manipulation?
 
             if interface.is_interface(i) == True:
                 filename = ''
                 if output:
-                    filename = pose.pdb_info().name()[:-4] + '_' +\
+                    filename = pose.pdb_info().name()[:-4] + '_' +\ #what does this mean?
                         pose.sequence()[i-1] +\
                         str(pose.pdb_info().number(i)) + '->' + mutant_aa
 
