@@ -76,10 +76,8 @@ if __name__ == "__main__":
             if interface.is_interface(i) == True:
                 filename = ''
                 if output:
-                    filename = pose.pdb_info().name()[:-4] + '_' +\ #what does this mean?
-                        pose.sequence()[i-1] +\
-                        str(pose.pdb_info().number(i)) + '->' + mutant_aa
-
+                    filename = pose.pdb_info().name()[:-4] + '_' + pose.sequence()[i-1] + str(pose.pdb_info().number(i)) + '->' + mutant_aa
+                #What is the above line
                 ddG_mutants[i] = interface_ddG(pose, i, mutant_aa,
                     movable_jumps, ddG_scorefxn, interface_cutoff, filename )
 
