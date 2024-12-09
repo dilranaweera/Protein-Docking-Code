@@ -5,17 +5,18 @@ import optparse
 from rosetta import *
 from rosetta.protocols.scoring import Interface
 from pyrosetta import *
+# importing in programs needed for amino acid scanning
 
 init() # (extra options = "-seed ####") also an option
 import os; os.chdir('.test.output')
 
-def scanning(rgdfm1.pdb, A, mutant_aa = 'A', 
+def scanning(pdb_filename, partners, mutant_aa = 'A', 
         interface_cutoff = 8.0, output = False,
         trials = 1, trial_output = ''):
     
 
     pose = Pose()
-    pose_from_file(pose, rgdfm1.pdb)
+    pose_from_file(pose, pdb_filename)
         
     dock_jump = 1
     movable_jumps = Vector1([dock_jump])
@@ -53,7 +54,7 @@ def scanning(rgdfm1.pdb, A, mutant_aa = 'A',
                 filename = ''
                 if output:
                     filename = pose.pdb_info().name()[:-4] + '_' + pose.sequence()[i-1] + str(pose.pdb_info().number(i)) + '->' + mutant_aa
-                #What is the above line
+                #What is the above line mean
                 ddG_mutants[i] = interface_ddG(pose, i, mutant_aa,
                     movable_jumps, ddG_scorefxn, interface_cutoff, filename )
 
@@ -265,3 +266,11 @@ def scanning_analysis(trial_output):
     hotspots = [mutants[i] for i in significant]
 
     return hotspots
+
+###########
+
+### Input into command line:
+
+### >python ala_scan.py --pdb_filename=file.pdb --partners=A_B --mutant_aa=A --interface_cutoff=8.0 --trials=20 --trial_output=pdb_ddG --PyMOLMover_ip=off
+
+########
