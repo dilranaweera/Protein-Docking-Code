@@ -267,6 +267,53 @@ def scanning_analysis(trial_output):
 
     return hotspots
 
+parser = optparse.OptionParser()
+parser.add_option('--pdb_filename', dest = 'pdb_filename',
+    default = '../test/data/test_dock.pdb',    # default example PDB
+    help = 'the PDB file containing the protein to refine')
+
+parser.add_option('--partners', dest = 'partners',
+    default = 'A_B',    # default for the example test_dock.pdb
+    help = 'the relative chain partners for docking')
+# scanning options
+parser.add_option('--mutant_aa', dest = 'mutant_aa',
+    default = 'A',    # default to alanine, A
+    help = 'the amino acid to mutate all residues to')
+parser.add_option('--interface_cutoff', dest = 'interface_cutoff',
+    default = '8.0',    # default to 8.0 Angstroms
+    help = 'the distance (in Angstroms) to detect residues for repacking\
+        near the interface')
+parser.add_option('--output', dest = 'output',
+    default = '',    # default off, do now write to file
+    help = 'if True, mutant structures are written to PDB files')
+# trials options
+parser.add_option('--trials', dest='trials',
+    default = '1',    # default to single trial for speed
+    help = 'the number of trials to perform')
+parser.add_option('--trial_output', dest = 'trial_output',
+    default = 'ddG_out',    # if a specific output name is desired
+    help = 'the name preceding all output files')
+(options,args) = parser.parse_args()
+
+# PDB file option
+pdb_filename = options.pdb_filename
+partners = options.partners
+# scanning options
+mutant_aa = options.mutant_aa
+interface_cutoff = float(options.interface_cutoff)
+output = bool(options.output)
+# trials options
+trials = int(options.trials)
+trial_output = options.trial_output
+
+scanning(pdb_filename, partners, mutant_aa,
+    interface_cutoff, output, trials, trial_output)
+
+####
+
+## Example: pyscript_name.py --pdb_filename my_protein.pdb --mutant_aa V --trials 3
+## This would analyze 'my_protein.pdb', mutate residues to valine, and perform 3 trials.
+
 ###########
 
 ### Input into command line:
