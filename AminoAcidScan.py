@@ -207,7 +207,7 @@ def calc_binding_energy(pose, scorefxn, center, cutoff = 8.0):
     before = scorefxn(test_pose)
 
     xyz = rosetta.numeric.xyzVector_double_t()    # a Vector for coordinates
-    xyz.x = 500.0    # arbitrary separation magnitude, in the x direction
+    xyz.x = 500.0    # arbitrary separation magnitude, in the x direction; may need to be adjusted?
     xyz.y = 0.0    #...I didn't have this and it defaulted to 1e251...?
     xyz.z = 0.0    #...btw thats like 1e225 light years,
                    #    over 5e245 yrs at Warp Factor 9.999 (thanks M. Pacella)
@@ -224,7 +224,7 @@ def calc_binding_energy(pose, scorefxn, center, cutoff = 8.0):
     # return the change in score
     return before - scorefxn(test_pose)
 
-
+## Averages ddg values gives mutations >1 Std away from the mean
 def scanning_analysis(trial_output):
 
     # extract all files
@@ -318,6 +318,6 @@ scanning(pdb_filename, partners, mutant_aa,
 
 ### Input into command line:
 
-### >python ala_scan.py --pdb_filename=file.pdb --partners=A_B --mutant_aa=A --interface_cutoff=8.0 --trials=20 --trial_output=pdb_ddG --PyMOLMover_ip=off
+### >python alascan.py --pdb_filename=1l5g.pdb --partners=A_B --mutant_aa=A --interface_cutoff=8.0 --trials=3 --trial_output=pdb_ddG --PyMOLMover_ip=off
 
 ########
