@@ -314,7 +314,7 @@ scanning(pdb_filename, partners, mutant_aa,
 ## Example: pyscript_name.py --pdb_filename my_protein.pdb --mutant_aa V --trials 3
 ## This would analyze 'my_protein.pdb', mutate residues to valine, and perform 3 trials.
 
-###########
+###
 
 ### Input into command line:
 
