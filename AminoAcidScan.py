@@ -1,23 +1,15 @@
 from __future__ import print_function
 import optparse
 
-from pyrosetta import init, Pose, get_fa_scorefxn, ScoreFunction
-from pyrosetta.rosetta.protocols import docking
-from pyrosetta.rosetta.core.scoring import fa_atr, fa_rep, fa_sol, hbond_bb_sc, hbond_sc
-from pyrosetta.rosetta.protocols.moves import PyMOLMover
-
 from rosetta import *
 from rosetta.protocols.scoring import Interface
 from pyrosetta import *
-init()
 from pyrosetta import protocols
-
-print(dir(protocols))
 # importing in programs needed for amino acid scanning
 
 init() # (extra options = "-seed ####") also an option
-import os; os.chdir('.test.output')
-## need to mkdir .test.output
+## import os; os.chdir('.test.output') [may need to comment back in or "activate" if script keeps failing]
+## if needed, need to mkdir .test.output
 
 def scanning(pdb_filename, partners, mutant_aa = 'A', 
         interface_cutoff = 8.0, output = False,
