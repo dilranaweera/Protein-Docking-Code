@@ -4,7 +4,10 @@ import optparse
 from rosetta import *
 from rosetta.protocols.scoring import Interface
 from pyrosetta import *
+init()
+from pyrosetta import protocols
 from pyrosetta.rosetta.protocols.docking import setup_foldtree
+print(dir(protocols))
 # importing in programs needed for amino acid scanning
 
 init() # (extra options = "-seed ####") also an option
