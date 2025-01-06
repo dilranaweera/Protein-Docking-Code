@@ -5,10 +5,12 @@ import optparse
 from rosetta import *
 from rosetta.protocols.scoring import Interface
 from pyrosetta import *
+from pyrosetta.rosetta.protocols import docking
 # importing in programs needed for amino acid scanning
 
 init() # (extra options = "-seed ####") also an option
 import os; os.chdir('.test.output')
+## need to mkdir .test.output
 
 def scanning(pdb_filename, partners, mutant_aa = 'A', 
         interface_cutoff = 8.0, output = False,
