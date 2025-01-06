@@ -1,12 +1,17 @@
 from __future__ import print_function
 import optparse
 
+from pyrosetta import init, Pose, get_fa_scorefxn, ScoreFunction
+from pyrosetta.rosetta.protocols import docking
+from pyrosetta.rosetta.core.scoring import fa_atr, fa_rep, fa_sol, hbond_bb_sc, hbond_sc
+from pyrosetta.rosetta.protocols.moves import PyMOLMover
+
 from rosetta import *
 from rosetta.protocols.scoring import Interface
 from pyrosetta import *
 init()
 from pyrosetta import protocols
-from pyrosetta.rosetta.protocols.docking import setup_foldtree
+
 print(dir(protocols))
 # importing in programs needed for amino acid scanning
 
