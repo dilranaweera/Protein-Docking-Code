@@ -1,11 +1,10 @@
 from __future__ import print_function
 import optparse
 
-
 from rosetta import *
 from rosetta.protocols.scoring import Interface
 from pyrosetta import *
-from pyrosetta.rosetta.protocols import docking
+from pyrosetta.rosetta.protocols.docking import setup_foldtree
 # importing in programs needed for amino acid scanning
 
 init() # (extra options = "-seed ####") also an option
