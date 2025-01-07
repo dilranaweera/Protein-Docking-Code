@@ -1,3 +1,25 @@
+#####
+### Step 1: Initialize or activate the environment: 
+
+conda activate py39_env
+
+### Step 2: Ensure the pdb file of interest and the python script are in the same directory. Also, make a subdirectory called ".test.output."
+### Step 3: Make sure PyRosetta is installed
+
+### pip install pyrosetta-installer 
+### python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
+
+## Step 4: Run script using the below command...
+
+### Command to input into command line:
+### >python alascan.py --pdb_filename=file.pdb --partners=A_B --mutant_aa=A --interface_cutoff=8.0 --trials=3 --trial_output=pdb_ddG --PyMOLMover_ip=off
+ 
+# Notes: 
+# Example: pyscript_name.py --pdb_filename my_protein.pdb --mutant_aa V --trials 3
+# This analyzes 'my_protein.pdb', mutate residues to valine, and perform 3 trials.
+# may need to take out --PyMOLMover_ip=off 
+########
+
 from __future__ import print_function
 import optparse
 
@@ -326,16 +348,3 @@ trial_output = options.trial_output
 
 scanning(pdb_filename, partners, mutant_aa,
     interface_cutoff, output, trials, trial_output)
-
-####
-
-## Example: pyscript_name.py --pdb_filename my_protein.pdb --mutant_aa V --trials 3
-## This would analyze 'my_protein.pdb', mutate residues to valine, and perform 3 trials.
-
-###
-
-### Input into command line:
-
-### >python alascan.py --pdb_filename=1l5g.pdb --partners=A_B --mutant_aa=A --interface_cutoff=8.0 --trials=3 --trial_output=pdb_ddG --PyMOLMover_ip=off
-## may need to take out --PyMOLMover_ip=off 
-########
