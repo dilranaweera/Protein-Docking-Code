@@ -337,5 +337,5 @@ scanning(pdb_filename, partners, mutant_aa,
 ### Input into command line:
 
 ### >python alascan.py --pdb_filename=1l5g.pdb --partners=A_B --mutant_aa=A --interface_cutoff=8.0 --trials=3 --trial_output=pdb_ddG --PyMOLMover_ip=off
-
+## may need to take out --PyMOLMover_ip=off 
 ########
