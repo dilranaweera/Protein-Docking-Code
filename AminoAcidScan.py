@@ -10,8 +10,10 @@ from pyrosetta.rosetta.protocols.minimization_packing import PackRotamersMover
 # importing in programs needed for amino acid scanning
 
 init() # (extra options = "-seed ####") also an option
+scorefxn = get_fa_scorefxn()
+print(scorefxn)
 import os; os.chdir('.test.output')
-## if needed, need to mkdir .test.output
+##need to mkdir .test.output
 
 def scanning(pdb_filename, partners, mutant_aa = 'A', 
         interface_cutoff = 8.0, output = False,
@@ -28,6 +30,8 @@ def scanning(pdb_filename, partners, mutant_aa = 'A',
 
 
     scorefxn = get_fa_scorefxn() #  create_score_function('standard')
+    pack_scorefxn = get_fa_scorefxn() #add pack_scorefxn definition here
+    
     scorefxn(pose)    # needed for proper Interface calculation
 
     ddG_scorefxn = ScoreFunction()
@@ -42,7 +46,7 @@ def scanning(pdb_filename, partners, mutant_aa = 'A',
     interface.distance(interface_cutoff)
     interface.calculate(pose)
 
-
+## for visualization
     pymover = PyMOLMover()
     pymover.keep_history(True)    # for multiple trajectories
     pymover.apply(pose)
@@ -52,15 +56,15 @@ def scanning(pdb_filename, partners, mutant_aa = 'A',
     for trial in range( trials ):
 
         ddG_mutants = {}
-        for i in range(1, pose.total_residue() + 1): #how do I only specify 1 residue manipulation?
+        for i in range(1, pose.total_residue() + 1): 
 
-            if interface.is_interface(i) == True:
+            if interface.is_interface(i):
                 filename = ''
                 if output:
                     filename = pose.pdb_info().name()[:-4] + '_' + pose.sequence()[i-1] + str(pose.pdb_info().number(i)) + '->' + mutant_aa
-                #What is the above line mean
+
                 ddG_mutants[i] = interface_ddG(pose, i, mutant_aa,
-                    movable_jumps, scorefxn, interface_cutoff, filename )
+                    movable_jumps, scorefxn, interface_cutoff, filename, pack_scorefxn ) # Pass pack_scorefxn here
 
         # output results
         print( '='*80 )
@@ -88,13 +92,14 @@ def scanning(pdb_filename, partners, mutant_aa = 'A',
 
 
 def interface_ddG( pose, mutant_position, mutant_aa, movable_jumps, scorefxn = None,
-        cutoff = 8.0, out_filename = ''):
+        cutoff = 8.0, out_filename = '', pack_scorefxn=None):
     # 1. create a reference copy of the pose
     wt = Pose()    # the "wild-type"
     wt.assign(pose)
 
     # 2. setup a specific default ScoreFunction
     if not scorefxn:
+        scorefxn = get_fa_scorefxn()
 
         scorefxn = ScoreFunction()
         scorefxn.set_weight(fa_atr, 0.44)
@@ -109,7 +114,7 @@ def interface_ddG( pose, mutant_position, mutant_aa, movable_jumps, scorefxn = N
 
 
     mutant = mutate_residue(mutant, mutant_position, mutant_aa,
-        0.0, scorefxn)
+        0.0, pack_scorefxn)
 
 
     wt_score = calc_binding_energy(wt, scorefxn,
@@ -182,7 +187,7 @@ def mutate_residue(pose, mutant_position, mutant_aa,
 
     return test_pose
 
-def calc_binding_energy(pose, scorefxn, center, cutoff = 8.0):
+def calc_binding_energy(pose, scorefxn, center, cutoff = 8.0, pack_scorefxn=None):
     # create a copy of the pose for manipulation
     if pack_scorefxn is None: 
         pack_scorefxn = get_fa_scorefxn()
