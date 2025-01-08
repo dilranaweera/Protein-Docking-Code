@@ -1,4 +1,5 @@
 #####
+### credit to https://graylab.jhu.edu/pyrosetta/downloads/scripts/toolbox/mutants.py
 ### Step 1: Initialize or activate the environment: 
 
 conda activate py39_env
