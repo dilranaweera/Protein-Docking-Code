@@ -341,7 +341,7 @@ pdb_filename = options.pdb_filename
 partners = options.partners
 # scanning options
 # mutant_aa = options.mutant_aa
-mutantList=['A', 'C']
+mutantList=['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
 interface_cutoff = float(options.interface_cutoff)
 output = bool(options.output)
 # trials options
