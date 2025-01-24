@@ -1,11 +1,11 @@
 #####
 ### credit to https://graylab.jhu.edu/pyrosetta/downloads/scripts/toolbox/mutants.py
-### Step 1: Initialize or activate the environment: 
+### Step 1: Initialize or activate appropriate environments: 
 
-conda activate py39_env
+### conda activate py39_env
 
-### Step 2: Ensure the pdb file of interest and the python script are in the same directory. Also, make a subdirectory called ".test.output."
-### Step 3: Make sure PyRosetta is installed
+### Step 2: Ensure the pdb file and the python script are in the same directory. Also, make a directory called ".test.output."
+### Step 3: Make sure PyRosetta is installed 
 
 ### pip install pyrosetta-installer 
 ### python -c 'import pyrosetta_installer; pyrosetta_installer.install_pyrosetta()'
@@ -13,12 +13,12 @@ conda activate py39_env
 ## Step 4: Run script using the below command...
 
 ### Command to input into command line:
-### >python alascan.py --pdb_filename=file.pdb --partners=A_B --mutant_aa=A --interface_cutoff=8.0 --trials=3 --trial_output=pdb_ddG --PyMOLMover_ip=off
+### >python AAscan.py --pdb_filename=file.pdb --partners=A_B --mutant_aa=A --interface_cutoff=8.0 --trials=3 --trial_output=pdb_ddG --PyMOLMover_ip=off
  
 # Notes: 
 # Example: pyscript_name.py --pdb_filename my_protein.pdb --mutant_aa V --trials 3
 # This analyzes 'my_protein.pdb', mutate residues to valine, and perform 3 trials.
-# may need to take out --PyMOLMover_ip=off 
+# ...may need to take out --PyMOLMover_ip=off 
 ########
 
 from __future__ import print_function
@@ -36,12 +36,11 @@ init() # (extra options = "-seed ####") also an option
 scorefxn = get_fa_scorefxn()
 print(scorefxn)
 import os; os.chdir('.test.output')
-##need to mkdir .test.output
 
 def scanning(pdb_filename, partners, mutant_aa_list = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y'], 
         interface_cutoff = 8.0, output = False,
         trials = 1, trial_output = ''):
-    
+## performs the scanning, repacks the necessary residues, and subtracts the score of the pose along with the partners of the docking    
     for mutant_aa in mutant_aa_list:
         
         pose = Pose()
@@ -49,7 +48,7 @@ def scanning(pdb_filename, partners, mutant_aa_list = ['A', 'C', 'D', 'E', 'F', 
             
         dock_jump = 1
         movable_jumps = Vector1([dock_jump])
-        ## protocols.docking.setup_foldtree(pose, partners, movable_jumps) (could be wrong command)
+        
         docking.setup_foldtree(pose, partners, movable_jumps)
 
 
@@ -89,7 +88,7 @@ def scanning(pdb_filename, partners, mutant_aa_list = ['A', 'C', 'D', 'E', 'F', 
 
                     ddG_mutants[i] = interface_ddG(pose, i, mutant_aa,
                         movable_jumps, scorefxn, interface_cutoff, filename, pack_scorefxn ) # Pass pack_scorefxn here
-
+## determines interface score changes upon mutation
             # output results
             print( '='*80 )
             print( 'Trial', str( trial + 1 ) )
@@ -219,7 +218,7 @@ def calc_binding_energy(pose, scorefxn, center, cutoff = 8.0, pack_scorefxn=None
     test_pose = Pose()
     test_pose.assign(pose)
 
-    
+    ## adjusts packing settings to relevant residues
     tf = standard_task_factory()    # create a TaskFactory
     tf.push_back(core.pack.task.operation.RestrictToRepacking())    # restrict it to repacking
 
@@ -237,8 +236,8 @@ def calc_binding_energy(pose, scorefxn, center, cutoff = 8.0, pack_scorefxn=None
     # apply these settings to the TaskFactory
     tf.push_back(prevent_repacking)
 
-    # setup a PackRotamersMover
-    ## packer = protocols.simple_moves.PackRotamersMover(scorefxn) (in original script)
+    # setup a PackRotamersMover, optimizes side-chain conformations
+    ## packer = protocols.simple_moves.PackRotamersMover(scorefxn) from og script
     packer = PackRotamersMover(pack_scorefxn)
     packer.task_factory(tf)
 
