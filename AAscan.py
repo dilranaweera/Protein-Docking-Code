@@ -38,80 +38,81 @@ print(scorefxn)
 import os; os.chdir('.test.output')
 ##need to mkdir .test.output
 
-def scanning(pdb_filename, partners, mutant_aa = 'A', 
+def scanning(pdb_filename, partners, mutant_aa_list = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y'], 
         interface_cutoff = 8.0, output = False,
         trials = 1, trial_output = ''):
     
-
-    pose = Pose()
-    pose_from_file(pose, pdb_filename)
+    for mutant_aa in mutant_aa_list:
         
-    dock_jump = 1
-    movable_jumps = Vector1([dock_jump])
-    ## protocols.docking.setup_foldtree(pose, partners, movable_jumps) (could be wrong command)
-    docking.setup_foldtree(pose, partners, movable_jumps)
+        pose = Pose()
+        pose_from_file(pose, pdb_filename)
+            
+        dock_jump = 1
+        movable_jumps = Vector1([dock_jump])
+        ## protocols.docking.setup_foldtree(pose, partners, movable_jumps) (could be wrong command)
+        docking.setup_foldtree(pose, partners, movable_jumps)
 
 
-    scorefxn = get_fa_scorefxn() #  create_score_function('standard')
-    pack_scorefxn = get_fa_scorefxn() #add pack_scorefxn definition here
-    
-    scorefxn(pose)    # needed for proper Interface calculation
+        scorefxn = get_fa_scorefxn() #  create_score_function('standard')
+        pack_scorefxn = get_fa_scorefxn() #add pack_scorefxn definition here
+        
+        scorefxn(pose)    # needed for proper Interface calculation
 
-    ddG_scorefxn = ScoreFunction()
-    ddG_scorefxn.set_weight(core.scoring.fa_atr, 0.44)
-    ddG_scorefxn.set_weight(core.scoring.fa_rep, 0.07)
-    ddG_scorefxn.set_weight(core.scoring.fa_sol, 1.0)
-    ddG_scorefxn.set_weight(core.scoring.hbond_bb_sc, 0.5)
-    ddG_scorefxn.set_weight(core.scoring.hbond_sc, 1.0)
-
-
-    interface = Interface(dock_jump)
-    interface.distance(interface_cutoff)
-    interface.calculate(pose)
-
-## for visualization
-    pymover = PyMOLMover()
-    pymover.keep_history(True)    # for multiple trajectories
-    pymover.apply(pose)
-    pymover.send_energy(pose)
+        ddG_scorefxn = ScoreFunction()
+        ddG_scorefxn.set_weight(core.scoring.fa_atr, 0.44)
+        ddG_scorefxn.set_weight(core.scoring.fa_rep, 0.07)
+        ddG_scorefxn.set_weight(core.scoring.fa_sol, 1.0)
+        ddG_scorefxn.set_weight(core.scoring.hbond_bb_sc, 0.5)
+        ddG_scorefxn.set_weight(core.scoring.hbond_sc, 1.0)
 
 
-    for trial in range( trials ):
+        interface = Interface(dock_jump)
+        interface.distance(interface_cutoff)
+        interface.calculate(pose)
 
-        ddG_mutants = {}
-        for i in range(1, pose.total_residue() + 1): 
+    ## for visualization
+        pymover = PyMOLMover()
+        pymover.keep_history(True)    # for multiple trajectories
+        pymover.apply(pose)
+        pymover.send_energy(pose)
 
-            if interface.is_interface(i):
-                filename = ''
-                if output:
-                    filename = pose.pdb_info().name()[:-4] + '_' + pose.sequence()[i-1] + str(pose.pdb_info().number(i)) + '->' + mutant_aa
 
-                ddG_mutants[i] = interface_ddG(pose, i, mutant_aa,
-                    movable_jumps, scorefxn, interface_cutoff, filename, pack_scorefxn ) # Pass pack_scorefxn here
+        for trial in range( trials ):
 
-        # output results
+            ddG_mutants = {}
+            for i in range(1, pose.total_residue() + 1): 
+
+                if interface.is_interface(i):
+                    filename = ''
+                    if output:
+                        filename = pose.pdb_info().name()[:-4] + '_' + pose.sequence()[i-1] + str(pose.pdb_info().number(i)) + '->' + mutant_aa
+
+                    ddG_mutants[i] = interface_ddG(pose, i, mutant_aa,
+                        movable_jumps, scorefxn, interface_cutoff, filename, pack_scorefxn ) # Pass pack_scorefxn here
+
+            # output results
+            print( '='*80 )
+            print( 'Trial', str( trial + 1 ) )
+            print( 'Mutants (PDB numbered)\t\"ddG\" (interaction dependent score change)' )
+            residues = list( ddG_mutants.keys() )  # list(...) conversion is for python3 compatbility
+            residues.sort()    # easier to read
+            display = [pose.sequence()[i - 1] +
+                str(pose.pdb_info().number(i)) + mutant_aa + '\t' +
+                str(ddG_mutants[i]) + '\n'
+                for i in residues]
+            print( ''.join(display)[:-1] )
+            print( '='*80 )
+
+            # write to file
+            f = open(trial_output + '_' + str(trial + 1) + "_" + str(mutant_aa) + '.txt' , 'w' )
+            f.writelines(display)
+            f.close()
+
+
+        print( 'Likely Hotspot Residues' )
+        for hotspot in scanning_analysis(trial_output):
+            print( hotspot )
         print( '='*80 )
-        print( 'Trial', str( trial + 1 ) )
-        print( 'Mutants (PDB numbered)\t\"ddG\" (interaction dependent score change)' )
-        residues = list( ddG_mutants.keys() )  # list(...) conversion is for python3 compatbility
-        residues.sort()    # easier to read
-        display = [pose.sequence()[i - 1] +
-            str(pose.pdb_info().number(i)) + mutant_aa + '\t' +
-            str(ddG_mutants[i]) + '\n'
-            for i in residues]
-        print( ''.join(display)[:-1] )
-        print( '='*80 )
-
-        # write to file
-        f = open(trial_output + '_' + str(trial + 1) + '.txt' , 'w' )
-        f.writelines(display)
-        f.close()
-
-
-    print( 'Likely Hotspot Residues' )
-    for hotspot in scanning_analysis(trial_output):
-        print( hotspot )
-    print( '='*80 )
 
 
 def interface_ddG( pose, mutant_position, mutant_aa, movable_jumps, scorefxn = None,
@@ -317,9 +318,9 @@ parser.add_option('--partners', dest = 'partners',
     default = 'A_B',    # default for the example test_dock.pdb
     help = 'the relative chain partners for docking')
 # scanning options
-parser.add_option('--mutant_aa', dest = 'mutant_aa',
-    default = 'A',    # default to alanine, A
-    help = 'the amino acid to mutate all residues to')
+# parser.add_option('--mutant_aa', dest = 'mutant_aa',
+#     default = 'A',    # default to alanine, A
+#     help = 'the amino acid to mutate all residues to')
 parser.add_option('--interface_cutoff', dest = 'interface_cutoff',
     default = '8.0',    # default to 8.0 Angstroms
     help = 'the distance (in Angstroms) to detect residues for repacking\
@@ -340,12 +341,13 @@ parser.add_option('--trial_output', dest = 'trial_output',
 pdb_filename = options.pdb_filename
 partners = options.partners
 # scanning options
-mutant_aa = options.mutant_aa
+# mutant_aa = options.mutant_aa
+mutantList=['A', 'C']
 interface_cutoff = float(options.interface_cutoff)
 output = bool(options.output)
 # trials options
 trials = int(options.trials)
 trial_output = options.trial_output
 
-scanning(pdb_filename, partners, mutant_aa,
+scanning(pdb_filename, partners, mutantList,
     interface_cutoff, output, trials, trial_output)
