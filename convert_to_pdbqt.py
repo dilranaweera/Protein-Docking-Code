@@ -1,3 +1,6 @@
+## run: python convert_to_pdbqt.py 1699
+# (1699) = residue position
+
 import os
 import subprocess
 
