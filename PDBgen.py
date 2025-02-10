@@ -20,16 +20,25 @@ from modeller import *
 from modeller.optimizers import MolecularDynamics, ConjugateGradients
 from modeller.automodel import autosched
 
-import os
+
 
 def generate_mutants(modelname, respos, chain):
     amino_acids = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL"]
     
     # Create a new directory for mutants
-    output_dir = f"Mutants_{respos}"
-    os.makedirs(output_dir, exist_ok=True)
+##    output_dir = f"Mutants_{respos}"
+##    os.makedirs(output_dir, exist_ok=True)
+
+    mutants_dir = f"Mutants_{respos}"
+    logs_dir = f"Logs_{respos}"
+    os.makedirs(mutants_dir, exist_ok=True)
+    os.makedirs(logs_dir, exist_ok=True)
 
     for restyp in amino_acids:
+        log_file = os.path.join(logs_dir, f"{modelname}_{restyp}{respos}.log")
+        sys.stdout = open(log_file, 'w')  # Redirect stdout to log file
+        
+        try:
         # ... (mutation process remains the same)        
 
 def optimize(atmsel, sched):
@@ -172,9 +181,13 @@ s.energy()
 ## mdl1.write(file=modelname+restyp+respos+'.pdb')
 
         # Change the output file path
-        output_file = os.path.join(output_dir, f"
-{modelname}_{restyp}{respos}.pdb")
-        mdl1.write(file=output_file)
+output_file = os.path.join(mutants_dir, f"{modelname}_{restyp}
+{respos}.pdb")
+mdl1.write(file=output_file)
 
 #delete the temporary file
 os.remove(modelname+restyp+respos+'.tmp')
+
+if __name__ == "__main__":
+    modelname, respos, chain = sys.argv[1:4]
+    generate_mutants(modelname, respos, chain)
