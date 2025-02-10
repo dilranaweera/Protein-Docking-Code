@@ -1,10 +1,3 @@
-import sys
-import os
-
-from modeller import *
-from modeller.optimizers import MolecularDynamics, ConjugateGradients
-from modeller.automodel import autosched
-
 #
 #  mutate_model.py
 #
@@ -19,8 +12,25 @@ from modeller.automodel import autosched
 #  refined using some MD.
 #
 #  Note: if the model has no chain identifier, specify "" for the chain argument.
-#
 
+import sys
+import os
+
+from modeller import *
+from modeller.optimizers import MolecularDynamics, ConjugateGradients
+from modeller.automodel import autosched
+
+import os
+
+def generate_mutants(modelname, respos, chain):
+    amino_acids = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL"]
+    
+    # Create a new directory for mutants
+    output_dir = f"Mutants_{respos}"
+    os.makedirs(output_dir, exist_ok=True)
+
+    for restyp in amino_acids:
+        # ... (mutation process remains the same)        
 
 def optimize(atmsel, sched):
     #conjugate gradient
@@ -159,7 +169,12 @@ optimize(s, sched)
 s.energy()
 
 #give a proper name
-mdl1.write(file=modelname+restyp+respos+'.pdb')
+## mdl1.write(file=modelname+restyp+respos+'.pdb')
+
+        # Change the output file path
+        output_file = os.path.join(output_dir, f"
+{modelname}_{restyp}{respos}.pdb")
+        mdl1.write(file=output_file)
 
 #delete the temporary file
 os.remove(modelname+restyp+respos+'.tmp')
