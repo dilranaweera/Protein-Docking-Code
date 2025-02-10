@@ -1,10 +1,10 @@
 import os
 
 def prepare_vina_docking(residue_pos):
-    pdbqt_dir = f"Mutants_{residue_pos}" #Corrected name for directory containing .pdbqt files
+    pdbqt_dir = f"Mutants_{residue_pos}"
     docking_dir = f"Docking_{residue_pos}"
     config_template = "config_template.txt"
-    receptor = "4g1m_ab.pdbqt" #receptor name
+    receptor = "4g1m_ab.pdbqt"
 
     os.makedirs(docking_dir, exist_ok=True)
 
@@ -13,24 +13,17 @@ def prepare_vina_docking(residue_pos):
 
     for ligand in os.listdir(pdbqt_dir):
         if ligand.endswith(".pdbqt"):
-            ligand_name = os.path.splitext(ligand)[0] #Correctly gets the file name and extension
-            ligand_dir = os.path.join(docking_dir, ligand_name)
-            os.makedirs(ligand_dir, exist_ok=True)
+            ligand_name = os.path.splitext(ligand)[0]
+            # Use the actual ligand file name instead of creating new directories
+            # Correct the config name
+            config_file_name = f"config_{ligand_name}.txt"
+            config_file_path = os.path.join(docking_dir, config_file_name)
 
-            receptor_path = os.path.join(pdbqt_dir, receptor) #Where the files are
-            ligand_path = os.path.join(pdbqt_dir, ligand)
+            # Correctly replace the ligand name
+            config_content = template_content.replace("$LIGAND", ligand)
 
-            #Copy receptor to the directory
-            os.system(f"cp {receptor_path} {ligand_dir}/")
-            #Copy .pdbqt ligand name to the directory
-            os.system(f"cp {ligand_path} {ligand_dir}/")
-
-            config_content = template_content.replace("$LIGAND", ligand) #Replaces $LIGAND
-            config_file_path = os.path.join(ligand_dir, "config.txt") #Proper name with .txt extension
-            
-            with open(config_file_path, 'w') as config: #Creates correct config files
-                config.write(config_content) #Writes the content into it.
-            
+            with open(config_file_path, 'w') as config:
+                config.write(config_content)
 
     print(f"Docking preparations complete. Files are in {docking_dir}")
 
