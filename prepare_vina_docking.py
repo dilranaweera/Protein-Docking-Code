@@ -27,7 +27,7 @@ def prepare_vina_docking(residue_pos):
             os.system(f"cp {os.path.join(pdbqt_dir, ligand)} {ligand_dir}/")
             
             with open(os.path.join(docking_dir, "config_template.txt"), 'r') as template, open(os.path.join(ligand_dir, "config.txt"), 'w') as config:
-                config_content = template.read().replace("$LIGAND", ligand)
+                config_content = template.read().replace("$LIGAND", ligand).replace("RECEPTOR", receptor)
                 config.write(config_content)
 
     print(f"Docking preparations complete. Files are in {docking_dir}")
