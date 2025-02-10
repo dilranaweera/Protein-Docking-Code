@@ -3,34 +3,35 @@
 import os
 
 def prepare_vina_docking(residue_pos):
-    pdbqt_dir = f"PDBQT_{residue_pos}"
-    docking_dir = f"Docking_{residue_pos}"
-    config_template = "config_template.txt"
-    receptor = "receptor.pdbqt"
+    pdbqt_dir = f"PDBQT_{residue_pos}"  # Directory containing mutant ligands
+    docking_dir = f"Docking_{residue_pos}"  # Output directory
+    config_template = "config_template.txt"  # Template file
+    receptor = "receptor.pdbqt"  # Receptor file
 
+    # Create output directory
     os.makedirs(docking_dir, exist_ok=True)
 
-    with open(config_template, 'r') as template, open(os.path.join(docking_dir, "config_template.txt"), 'w') as output:
-        for line in template:
-            if line.strip().startswith("ligand"):
-                output.write("ligand = $LIGAND\n")
-            else:
-                output.write(line)
+    # Read template once
+    with open(config_template, 'r') as template:
+        template_content = template.read()
 
     for ligand in os.listdir(pdbqt_dir):
         if ligand.endswith(".pdbqt"):
             ligand_name = os.path.splitext(ligand)[0]
             ligand_dir = os.path.join(docking_dir, ligand_name)
             os.makedirs(ligand_dir, exist_ok=True)
-            
+
+            # Copy receptor and ligand to ligand-specific directory
             os.system(f"cp {receptor} {ligand_dir}/")
             os.system(f"cp {os.path.join(pdbqt_dir, ligand)} {ligand_dir}/")
-            
-            with open(os.path.join(docking_dir, "config_template.txt"), 'r') as template, open(os.path.join(ligand_dir, "config.txt"), 'w') as config:
-                config_content = template.read().replace("$LIGAND", ligand).replace("RECEPTOR", receptor)
+
+            # Create config file
+            config_path = os.path.join(ligand_dir, "config.txt")
+            with open(config_path, 'w') as config:
+                config_content = template_content.replace("$LIGAND", ligand)
                 config.write(config_content)
 
-    print(f"Docking preparations complete. Files are in {docking_dir}")
+    print(f"Docking configurations generated in {docking_dir}")
 
 if __name__ == "__main__":
     import sys
