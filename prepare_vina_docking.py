@@ -4,7 +4,7 @@ def prepare_vina_docking(residue_pos):
     pdbqt_dir = f"Mutants_{residue_pos}"
     docking_dir = f"Docking_{residue_pos}"
     config_template = "config_template.txt"
-    receptor = "4g1m_ab.pdbqt"
+    receptor = "4g1m_ab.pdbqt"  # Make sure the receptor file exists in the current directory
 
     os.makedirs(docking_dir, exist_ok=True)
 
@@ -14,13 +14,12 @@ def prepare_vina_docking(residue_pos):
     for ligand in os.listdir(pdbqt_dir):
         if ligand.endswith(".pdbqt"):
             ligand_name = os.path.splitext(ligand)[0]
-            # Use the actual ligand file name instead of creating new directories
-            # Correct the config name
             config_file_name = f"config_{ligand_name}.txt"
             config_file_path = os.path.join(docking_dir, config_file_name)
 
-            # Correctly replace the ligand name
-            config_content = template_content.replace("$LIGAND", ligand)
+            # Replace placeholders in the config content
+            config_content = template_content.replace("$LIGAND", ligand)  # Correctly replace $LIGAND placeholder
+            config_content = config_content.replace("receptor = receptor.pdbqt", f"receptor = {receptor}")  # Ensure the receptor name is correct
 
             with open(config_file_path, 'w') as config:
                 config.write(config_content)
