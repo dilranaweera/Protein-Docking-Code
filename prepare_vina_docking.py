@@ -8,20 +8,27 @@ def prepare_vina_docking(residue_pos):
 
     os.makedirs(docking_dir, exist_ok=True)
 
-    with open(config_template, 'r') as template:
-        template_content = template.read()
+    with open(config_template, 'r') as template, 
+open(os.path.join(docking_dir, "config_template.txt"), 'w') as output:
+        for line in template:
+            if line.strip().startswith("ligand"):
+                output.write("ligand = $LIGAND\n")
+            else:
+                output.write(line)
 
     for ligand in os.listdir(pdbqt_dir):
         if ligand.endswith(".pdbqt"):
             ligand_name = os.path.splitext(ligand)[0]
-            config_file_name = f"config_{ligand_name}.txt"
-            config_file_path = os.path.join(docking_dir, config_file_name)
-
-            # Replace placeholders in the config content
-            config_content = template_content.replace("$LIGAND", ligand)  # Correctly replace $LIGAND placeholder
-            config_content = config_content.replace("receptor = receptor.pdbqt", f"receptor = {receptor}")  # Ensure the receptor name is correct
-
-            with open(config_file_path, 'w') as config:
+            ligand_dir = os.path.join(docking_dir, ligand_name)
+            os.makedirs(ligand_dir, exist_ok=True)
+            
+            os.system(f"cp {receptor} {ligand_dir}/")
+            os.system(f"cp {os.path.join(pdbqt_dir, 
+ligand)} {ligand_dir}/")
+            
+            with open(os.path.join(docking_dir, "config_template.txt"), 
+'r') as template, open(os.path.join(ligand_dir, "config.txt"), 'w') as config:
+                config_content = template.read().replace("$LIGAND", ligand)
                 config.write(config_content)
 
     print(f"Docking preparations complete. Files are in {docking_dir}")
