@@ -1,3 +1,6 @@
+## run: /usr/bin/python3 PDBgen1.py 1fuv_ed2.pdb 5 A
+## 5=residue position, A=Chain
+
 import sys
 import os
 
