@@ -1,9 +1,23 @@
-## Command
-
 from vina import Vina
 
-v = Vina()
-v.set_receptor('receptor.pdbqt')  # Example receptor file
-v.set_ligand_from_file('ligand.pdbqt')  # Example ligand file
-v.dock()
-v.write_poses('output.pdbqt', n_poses=1)
+# Initialize Vina
+v = Vina(sf_name='vina')
+
+# Set receptor and ligand
+v.set_receptor('/Users/dilrana/desktop/Kuczera/6avu_ed.pdbqt')
+v.set_ligand_from_file('/Users/dilrana/desktop/Kuczera/PDBfiles/1fuv_ed.pdbqt')
+
+# Define docking box
+center = [35, 35, 7]
+size = [40.0, 40.0, 40.0]
+v.compute_vina_maps(center=center, box_size=size)
+
+# Perform docking
+exhaustiveness = 16
+num_modes = 10
+energy_range = 3.0
+v.dock(exhaustiveness=exhaustiveness, n_poses=num_modes)
+
+# Write output
+v.write_poses('docked_poses.pdbqt', n_poses=num_modes, energy_range=energy_range)
+print("Docking completed. Results saved to 'docked_poses.pdbqt'")

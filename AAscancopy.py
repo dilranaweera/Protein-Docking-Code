@@ -41,6 +41,8 @@ def scanning(pdb_filename, partners, mutant_aa_list = ['A', 'C', 'D', 'E', 'F', 
         interface_cutoff = 8.0, output = False,
         trials = 1, trial_output = ''):
 ## performs the scanning, repacks the necessary residues, and subtracts the score of the pose along with the partners of the docking    
+   
+   
     for mutant_aa in mutant_aa_list:
         
         pose = Pose()
