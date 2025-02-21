@@ -1,3 +1,6 @@
+### To generate 8k peptides in a 3-consecutive-amino-acid motif. For each space in a tripeptide motif, there are 20 possible combinations of peptides that can be generated. 
+### This script automates the generation of 8k peptides by iteratively mutagenizing through each amino acid in the motif so that each of the 8k combinations of peptides that are generated are made. 
+
 import sys
 import os
 from modeller import *
