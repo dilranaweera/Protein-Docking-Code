@@ -1,13 +1,16 @@
-Help Code: 
+## Help Code: 
 obabel -H
 
-General Code for PDB File conversions: 
+## General Code for PDB File conversions: 
 
 obabel [inputfile.name] -O [outputfile.name] [-OPTIONS]
 
-Ex. Adding Hydrogens to appropriate pH
+## Ex. Adding Hydrogens to appropriate pH
 
-obabel refined_enzyme.pdb -O FINALrefinedenzyme.pdb -p 7
+obabel refined_enzyme.pdb -O FINALrefinedenzyme.pdb -p 7.4
 
-Converting from multipel pdb-->pdbqt:
+# Converting pdb to pdbqt:
+obabel [inputfile.name] -O [outputfile.name] -xr -p 7.4 --partialcharge --gasteiger
+
+## Converting from multipel pdb-->pdbqt:
 obabel -ipdb *.pdb -opdbqt --gen3d -h -m
