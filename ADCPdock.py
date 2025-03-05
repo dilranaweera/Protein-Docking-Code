@@ -335,8 +335,8 @@ def run_adcp_on_trg(trg_file):
 def main():
     
     # Set directories
-    pdbqt_dir = "path/to/pdbqt/files"  # Directory containing PDBQT files
-    trg_dir = "path/to/trg/files"  # Directory to store generated TRG files
+    pdbqt_dir = "/home/dilrana/Desktop/adcp/RGDmut/RGDpdbqt"  # Directory containing PDBQT files
+    trg_dir = "/home/dilrana/Desktop/adcp/RGDmut/RGDtrg"  # Directory to store generated TRG files
 
     # Generate .trg files
     generate_trg_files(pdbqt_dir, trg_dir)
