@@ -1,7 +1,8 @@
 ### To generate 8k peptides in a 3-consecutive-amino-acid motif. For each space in a tripeptide motif, there are 20 possible combinations of peptides that can be generated. 
 ### This script automates the generation of 8k peptides by iteratively mutagenizing through each amino acid in the motif so that each of the 8k combinations of peptides that are generated are made. 
-# command: /usr/bin/python3 8kloopcode1.py modelname chain start_pos mid_pos end_pos
+# command on mac: /usr/bin/python3 8kloopcode1.py modelname chain start_pos mid_pos end_pos
 ## ex: /usr/bin/python3 8kloopcode1.py rgdfm.pdb A 1 2 3
+## Notes: Make sure the python version that modeller was downloaded is compatible with the version of python on your system.
 
 
 
