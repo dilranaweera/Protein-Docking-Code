@@ -22,7 +22,7 @@ def convert_to_pdbqt(residue_pos):
                 "-O", output_file,
                 "-xr",
                 "-p", "7.4",
-                "--partialcharge", "gasteiger"
+                "--partialcharge", "gasteiger", 
                 "--kekulize"
             ]
             
