@@ -21,6 +21,7 @@ def convert_to_pdbqt(input_dir):
                 "-xr",
                 "-p", "7.4",
                 "--partialcharge", "gasteiger"
+                "--kekulize"
             ]
             
             try:

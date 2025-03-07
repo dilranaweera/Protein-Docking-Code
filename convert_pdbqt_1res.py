@@ -23,6 +23,7 @@ def convert_to_pdbqt(residue_pos):
                 "-xr",
                 "-p", "7.4",
                 "--partialcharge", "gasteiger"
+                "--kekulize"
             ]
             
             subprocess.run(command, check=True)
