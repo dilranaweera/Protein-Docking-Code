@@ -290,7 +290,7 @@ def run_adcp_on_trg(trg_file):
     subprocess.run(adcp_command)
 
 def main():
-    pdbqt_dir = "/home/dilrana/Desktop/adcp/RGDmut/RGDpdbqt"
+    pdbqt_dir = "/home/dilrana/Desktop/adcp/RGDmut/PDBQT_1_2_3"
     trg_dir = "/home/dilrana/Desktop/adcp/RGDmut/RGDtrg"
 
     generate_trg_files(pdbqt_dir, trg_dir)
