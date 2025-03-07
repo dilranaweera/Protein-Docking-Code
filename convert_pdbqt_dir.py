@@ -1,3 +1,6 @@
+## Func: converts an entire directory of pdb files into pdbqts
+# Command: python convert_pdbqt_dir.py <directory>
+
 import os
 import subprocess
 
