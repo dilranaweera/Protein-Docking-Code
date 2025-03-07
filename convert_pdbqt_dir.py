@@ -4,29 +4,32 @@
 import os
 import subprocess
 
-def convert_to_pdbqt(input_dir):
+def convert_to_pdbqt_with_kekulization(input_dir):
+    # Create output directory for PDBQT files
     pdbqt_dir = f"PDBQT_{input_dir}"
     os.makedirs(pdbqt_dir, exist_ok=True)
 
     for file in os.listdir(input_dir):
         input_file = os.path.join(input_dir, file)
-        if os.path.isfile(input_file):
-            file_name, file_extension = os.path.splitext(file)
+        if os.path.isfile(input_file) and file.endswith(".pdb"):
+            file_name, _ = os.path.splitext(file)
             output_file = os.path.join(pdbqt_dir, f"{file_name}.pdbqt")
             
+            # Command to convert PDB to PDBQT with kekulization
             command = [
                 "obabel",
                 input_file,
                 "-O", output_file,
-                "-xr",
-                "-p", "7.4",
-                "--partialcharge", "gasteiger",
-                "--kekulize"
+                "-xr",  # Remove hydrogens from receptor
+                "-p", "7.4",  # Set pH to 7.4
+                "--partialcharge", "gasteiger",  # Assign Gasteiger partial charges
+                "--kekulize"  # Force kekulization for aromatic structures
             ]
             
             try:
+                # Run the conversion command
                 subprocess.run(command, check=True)
-                print(f"Converted {file} to {output_file}")
+                print(f"Converted {file} to {output_file} with kekulization.")
             except subprocess.CalledProcessError as e:
                 print(f"Error converting {file}: {e}")
 
@@ -43,4 +46,4 @@ if __name__ == "__main__":
         print(f"Error: {input_directory} is not a valid directory")
         sys.exit(1)
     
-    convert_to_pdbqt(input_directory)
+    convert_to_pdbqt_with_kekulization(input_directory)
