@@ -1,4 +1,5 @@
-## run: python convert_to_pdbqt.py 1699
+## Function: Code converts all pdb files in a directory into pdbqt at a particular residue position 
+# command: python convert_to_pdbqt.py 1699
 # (1699) = residue position
 
 import os
