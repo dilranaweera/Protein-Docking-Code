@@ -2,7 +2,7 @@
 ## Save the code: Save the above script as runADCP.py
 ## Set the correct paths: Modify pdbqt_dir and trg_dir in the main() function to the actual paths of your directories.
 ## Make sure ADCP is accessible: Ensure that the adcp executable is in your system's PATH, or modify the adcp_command list in the run_adcp_on_trg function with the correct path to your adcp executable.
-## Run the script: Execute the script from the command line using python runADCP.py.
+## Run the script: Execute the script from the command line using python ADCPdock.py.
 ## This comprehensive script will first generate .trg files from your .pdbqt files and then loop through each .trg file, running the ADCP docking simulation on each one. It provides error handling and clearer organization than previous attempts. Remember to adjust the directory paths to match your setup.
 ## adapted from: Michel F. SANNER https://github.com/ccsb-scripps/ADCP/blob/master/runADCP.py
 
