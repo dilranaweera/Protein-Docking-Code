@@ -1,3 +1,8 @@
+# Directions:
+# Make two folders: cif_files converted_files
+# Have the folders and the executable script all in one directory
+# Make the script executable: chmod + batch_prepare_pdbqt.sh
+# Command: ./batch_prepare_pdbqt.sh
 #!/bin/bash
 
 # Define input and output directories
