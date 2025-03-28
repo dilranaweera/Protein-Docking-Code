@@ -1,51 +1,24 @@
 #!/bin/bash
 
-# Automatically detect the path of the prodigy.py script
-PRODIGY_PATH=$(find ~ -type f -name "prodigy.py" 2>/dev/null | head -n 1)
+# Process all PDB files in directory
+for pdb_file in *.pdb; do
+    # Generate base name without extension
+    base_name=$(basename "${pdb_file}" .pdb)
+    
+    # Run Prodigy and save to log file
+    prodigy "${pdb_file}" --temperature 25.0 > "${base_name}.log" 2>&1
 
-# Ensure PRODIGY is found
-if [[ -z "$PRODIGY_PATH" ]]; then
-    echo "❌ Error: PRODIGY not found! Clone it from https://github.com/haddocking/prodigy"
-    exit 1
-fi
+    # Extract relevant data from log file
+    predicted_affinity=$(grep -oP 'Predicted affinity: \K[-\d.]+' "${base_name}.log")
+    temperature=$(grep -oP 'Temperature: \K[\d.]+' "${base_name}.log")
+    distance_cutoff=$(grep -oP 'Distance cutoff: \K[\d.]+' "${base_name}.log")
+    acc_threshold=$(grep -oP 'Accessibility threshold: \K[\d.]+' "${base_name}.log")
 
-# Extract the directory of prodigy.py
-PRODIGY_DIR=$(dirname "$PRODIGY_PATH")
-
-# Define input and output directories
-INPUT_DIR="./home/dilrana/Desktop/Kuzcera/af_ecm1_hecm1/converted_files/pdb"  # Change if necessary
-OUTPUT_FILE="prodigy_results.csv"
-
-# Ensure input directory exists
-if [[ ! -d "$INPUT_DIR" ]]; then
-    echo "❌ Error: Input directory '$INPUT_DIR' not found!"
-    exit 1
-fi
-
-# Write header to output CSV file
-echo "PDB_File,Binding_Energy_kcal/mol" > "$OUTPUT_FILE"
-
-# Loop through all PDB files in the input directory
-for pdb_file in "$INPUT_DIR"/*.pdb; do
-    base_name=$(basename "$pdb_file" .pdb)
-
-    echo "🔄 Processing: $pdb_file ..."
-
-    # Run PRODIGY from its directory
-    energy=$(
-        python "$PRODIGY_DIR/prodigy.py" -i "$pdb_file" -c A B |
-        grep "Binding affinity" | awk '{print $NF}'
-    )
-
-    # Check if energy was extracted
-    if [[ -z "$energy" ]]; then
-        echo "❌ Failed to process $pdb_file"
-        continue
+    # Create CSV header if not exists
+    if [ ! -f "results.csv" ]; then
+        echo "PDB File,Predicted Affinity (kcal/mol),Temperature (C),Distance Cutoff (Å),Accessibility Threshold" > results.csv
     fi
 
-    # Save results to CSV
-    echo "$base_name,$energy" >> "$OUTPUT_FILE"
-    echo "✅ $pdb_file → ΔG = $energy kcal/mol"
+    # Append data to CSV
+    echo "${base_name},${predicted_affinity},${temperature},${distance_cutoff},${acc_threshold}" >> results.csv
 done
-
-echo "🎉 Batch processing completed! Results saved in $OUTPUT_FILE"
