@@ -11,7 +11,6 @@ INPUT_DIR="./cif_files"
 OUTPUT_DIR="./converted_files"
 
 # Create output directories if they don't exist
-mkdir -p "$OUTPUT_DIR/sdf"
 mkdir -p "$OUTPUT_DIR/pdb"
 
 # Process each CIF file in the input directory
@@ -21,19 +20,9 @@ for cif_file in "$INPUT_DIR"/*.cif; do
 
     echo "Processing: $cif_file ..."
 
-    # Step 1: Convert CIF to SDF
-    sdf_file="$OUTPUT_DIR/sdf/${base_name}.sdf"
-    obabel "$cif_file" -O "$sdf_file" --gen3d --addbond --canonical --strictstereo
-    echo "Converted $cif_file to $sdf_file ✅"
-
-    # Step 2: Kekulize SDF
-    kekulized_sdf="$OUTPUT_DIR/sdf/${base_name}_kekulized.sdf"
-    obabel "$sdf_file" -O "$kekulized_sdf" --kekulize --gen3d
-    echo "Kekulized structure saved to $kekulized_sdf ✅"
-
     # Step 3: Convert Kekulized SDF to PDB
     pdb_file="$OUTPUT_DIR/pdb/${base_name}.pdb"
-    obabel "$kekulized_sdf" -O "$pdb_file"
+    obabel "$cif_file" -O "$pdb_file"
     echo "Final PDB file saved to $pdb_file ✅"
 
     echo "-----------------------------------"
