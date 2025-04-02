@@ -23,33 +23,42 @@ def extract_log_data(log_file):
     
     extracted_data = {key: "N/A" for key in patterns.keys()}
     
-    with open(log_file, 'r', encoding='utf-8') as file:
-        for line in file:
-            for key, pattern in patterns.items():
-                match = re.search(pattern, line)
-                if match:
-                    extracted_data[key] = match.group(1)
-                    print(f"Extracted {key}: {match.group(1)}")
+    try:
+        with open(log_file, 'r', encoding='utf-8', errors='ignore') as file:
+            for line in file:
+                for key, pattern in patterns.items():
+                    match = re.search(pattern, line)
+                    if match:
+                        extracted_data[key] = match.group(1)
+                        print(f"Extracted {key}: {match.group(1)}")
+    except Exception as e:
+        print(f"Error reading {log_file}: {e}")
     
     return extracted_data
 
 def process_directory(input_dir, output_csv):
     """Iterates through directories, extracts data from .log files, and writes to CSV."""
     print(f"Scanning directory: {input_dir}")
-    csv_headers = ["Folder Name"] + list(extract_log_data(next(os.walk(input_dir))[2][0]).keys())
     
     with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(csv_headers)
+        headers_written = False
         
         for root, _, files in os.walk(input_dir):
             folder_name = os.path.basename(root)
             print(f"Processing folder: {folder_name}")
+            
             for file in files:
-                if file.endswith(".log"):
+                if file.endswith(".log"):  # Ensure only .log files are processed
                     log_path = os.path.join(root, file)
                     print(f"Found log file: {log_path}")
                     extracted_data = extract_log_data(log_path)
+                    
+                    if not headers_written:
+                        csv_headers = ["Folder Name"] + list(extracted_data.keys())
+                        writer.writerow(csv_headers)
+                        headers_written = True
+                    
                     writer.writerow([folder_name] + list(extracted_data.values()))
                     print(f"Written data for {file} to CSV.")
 
