@@ -39,31 +39,31 @@ def extract_log_data(log_file):
 def process_directory(input_dir, output_csv):
     """Iterates through directories, extracts data from .log files, and writes to CSV."""
     print(f"Scanning directory: {input_dir}")
+    extracted_results = []
+    
+    for root, _, files in os.walk(input_dir):
+        folder_name = os.path.basename(root)
+        print(f"Processing folder: {folder_name}")
+        
+        for file in sorted(files):  # Sort files alphabetically
+            if file.endswith(".log"):  # Ensure only .log files are processed
+                log_path = os.path.join(root, file)
+                print(f"Found log file: {log_path}")
+                extracted_data = extract_log_data(log_path)
+                extracted_results.append([folder_name] + list(extracted_data.values()))
+    
+    extracted_results.sort(key=lambda x: x[0])  # Sort results by folder name
     
     with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
-        headers_written = False
-        
-        for root, _, files in os.walk(input_dir):
-            folder_name = os.path.basename(root)
-            print(f"Processing folder: {folder_name}")
-            
-            for file in files:
-                if file.endswith(".log"):  # Ensure only .log files are processed
-                    log_path = os.path.join(root, file)
-                    print(f"Found log file: {log_path}")
-                    extracted_data = extract_log_data(log_path)
-                    
-                    if not headers_written:
-                        csv_headers = ["Folder Name"] + list(extracted_data.keys())
-                        writer.writerow(csv_headers)
-                        headers_written = True
-                    
-                    writer.writerow([folder_name] + list(extracted_data.values()))
-                    print(f"Written data for {file} to CSV.")
+        if extracted_results:
+            csv_headers = ["Folder Name"] + list(extract_log_data(log_path).keys())
+            writer.writerow(csv_headers)
+            writer.writerows(extracted_results)
+    
+    print(f"Extraction complete. Output saved to {output_csv}")
 
 if __name__ == "__main__":
     input_directory = "/Users/dilrana/Desktop/Kuczera/af_ecm1_hecm1/cif_files/prodigy_results/"
     output_file = "extracted_logs.csv"
     process_directory(input_directory, output_file)
-    print(f"Extraction complete. Output saved to {output_file}")
