@@ -1,4 +1,4 @@
-## Process for Autodock on Vina (on LINUX systems):
+## Process for Autodock Vina (on pekoe):
 
 1. Download the right receptor and ligand from pdb.
 2. Locate appropriate ligand and receptor (should be listed within the files available in the folder). Ligands and receptors should both be .pdbqt files if processed through Autodock Tools.
