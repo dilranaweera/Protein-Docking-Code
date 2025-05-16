@@ -60,3 +60,6 @@ if __name__ == "__main__":
         batch_size = num_workers * 2
         for i in range(0, len(ligands), batch_size):
             pool.map(process_ligand, ligands[i:i+batch_size])
+
+
+#     tar -cvzf my_archive.tar.gz my_directory
