@@ -1,16 +1,17 @@
 #!/bin/bash
 
-### Modify the SBATCH stuff below
+### Modify the SLURM SBATCH below
 
 #SBATCH --job-name=ADCP_Docking
 #SBATCH --output=adcp_%j.out
 #SBATCH --error=adcp_%j.err
-#SBATCH --time=2-00:00:00      # 2 days (adjust based on your needs)
-#SBATCH --partition=standard   # Use your cluster's partition name
+#SBATCH --time=2-00:00:00
+#SBATCH --partition=standard
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
+#SBATCH --ntasks-per-node=40
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=4G              # Adjust memory requirements
+#SBATCH --mem=4G 
+#SBATCH --array=0-7999
 
 # Exit on error and print commands
 set -e
