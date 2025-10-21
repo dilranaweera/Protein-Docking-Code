@@ -1,4 +1,10 @@
 #!/bin/bash
+# For convert_cif_to_pdbqt.sh script:  
+## Make the script executable:
+chmod +x batch_prepare_pdbqt.sh
+
+## Run script
+# ./batch_prepare_pdbqt.sh
 
 # Define input and output directories
 INPUT_DIR="./Mutants_1_2_3"
