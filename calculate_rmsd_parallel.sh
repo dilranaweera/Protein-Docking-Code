@@ -10,11 +10,6 @@ if [ $# -ne 3 ]; then
   exit 1
 fi
 
-if ! command -v parallel &>/dev/null; then
-  echo "GNU Parallel is required. Install it via 'sudo apt install parallel'"
-  exit 1
-fi
-
 # Create temporary RMSD calculation script
 cat << 'EOF' > /tmp/calc_rmsd.py
 import sys
