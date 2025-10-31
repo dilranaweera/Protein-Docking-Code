@@ -17,7 +17,8 @@ from pymol import cmd
 ### === USER PARAMETERS ======================================================
 
 reference_file = "ref.pdb"           # reference crystal structure
-reference_chain = "A"                # chain ID in reference
+reference_chain = "C"                # peptide chain ID in reference
+target_chain = "A"                   # peptide chain in docked models
 target_folder = "targets"            # folder containing target PDB files
 output_csv = "rmsdByRes_allModels.csv"
 perform_alignment = True             # set False if already pre-aligned
@@ -56,7 +57,7 @@ for target_file in target_files:
 
 # Create temporary clean copies
 ref_chain_sel = f"reference and chain {reference_chain}" if reference_chain else "reference"
-target_sel = f"{model_name} and chain {reference_chain}" if reference_chain else model_name
+target_sel = f"{model_name} and chain {target_chain}" if reference_chain else model_name
 
 cmd.create("ref_gzt", ref_chain_sel + " and polymer and not alt B")
 cmd.create("target_gzt", target_sel + " and polymer and not alt B")
