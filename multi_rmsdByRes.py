@@ -17,7 +17,7 @@ from pymol import cmd
 ### === USER PARAMETERS ======================================================
 
 reference_file = "ref.pdb"           # reference crystal structure
-reference_chain = "A"                # chain ID in reference
+reference_chain = "C"                # chain ID in reference
 target_folder = "targets"            # folder containing target PDB files
 output_csv = "rmsdByRes_allModels.csv"
 perform_alignment = True             # set False if already pre-aligned
