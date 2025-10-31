@@ -1,7 +1,7 @@
 import os
 
-input_dir = '/Users/Desktop/Kuczera/RGDdockedtop10PRODIGY/targets'        # Directory of your docked PDBs
-output_dir = '/Users/Desktop/Kuczera/RGDdockedtop10PRODIGY/fixedtargets'              # Where to write fixed files
+input_dir = '/Users/dilrana/Desktop/Kuczera/RGDdockedtop10PRODIGY/targets'        # Directory of your docked PDBs
+output_dir = '/Users/dilrana/Desktop/Kuczera/RGDdockedtop10PRODIGY/fixedtargets'              # Where to write fixed files
 os.makedirs(output_dir, exist_ok=True)
 
 start_resi_c = 5001   # Chain A (to C) peptide residue renumber start
