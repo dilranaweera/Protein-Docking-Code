@@ -1,7 +1,7 @@
 import os
 
-input_dir = './docked_structures'         # Change to your correct input directory
-output_dir = './fixed_pdbs'               # Change to your correct output directory
+input_dir = '/Users/dilrana/Desktop/Kuczera/RGDdockedtop10PRODIGY/targets'         # Change to your correct input directory
+output_dir = '/Users/dilrana/Desktop/Kuczera/RGDdockedtop10PRODIGY/fixedtargets'               # Change to your correct output directory
 os.makedirs(output_dir, exist_ok=True)
 
 start_resi_c = 5001       # Chain C ("peptide") renumber starts here
