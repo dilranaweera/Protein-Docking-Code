@@ -54,15 +54,27 @@ for target_file in target_files:
         except Exception as e:
             print(f"  ⚠️ Alignment failed for {model_name}: {e}")
 
-    # Create temporary clean copies
-    cmd.create("ref_gzt", ref_chain_sel + " and polymer and not alt B")
-    cmd.create("target_gzt", target_sel + " and polymer and not alt B")
-    cmd.alter("ref_gzt", "segi=''")
-    cmd.alter("target_gzt", "segi=''")
+# Create temporary clean copies
+ref_chain_sel = f"reference and chain {reference_chain}" if reference_chain else "reference"
+target_sel = f"{model_name} and chain {reference_chain}" if reference_chain else model_name
 
-    # Residues to check for symmetric sidechain flips
-    res2Check = ['HIS','ASP','ARG','PHE','GLN','GLU','LEU','ASN','TYR','VAL']
-    calpha = cmd.get_model(f"{ref_chain_sel} and name CA and not alt B")
+cmd.create("ref_gzt", ref_chain_sel + " and polymer and not alt B")
+cmd.create("target_gzt", target_sel + " and polymer and not alt B")
+cmd.alter("ref_gzt", "segi=''")
+cmd.alter("target_gzt", "segi=''")
+cmd.sort()
+
+# Residues to check for symmetric sidechain flips
+res2Check = ['HIS','ASP','ARG','PHE','GLN','GLU','LEU','ASN','TYR','VAL']
+calpha = cmd.get_model(f"{ref_chain_sel} and name CA and not alt B")
+
+for g in calpha.atom:
+    ref_sel = f"ref_gzt and polymer and resi {g.resi}"
+    tgt_sel = f"target_gzt and polymer and resi {g.resi}"
+
+    if cmd.count_atoms(ref_sel) == 0 or cmd.count_atoms(tgt_sel) == 0:
+        print(f"⚠️ Missing atoms for residue {g.resi} ({g.resn}) in {model_name}")
+        continue
 
     output_lines = []
     for g in calpha.atom:
