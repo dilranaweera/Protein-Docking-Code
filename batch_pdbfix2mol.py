@@ -7,31 +7,22 @@ from openmm.unit import nanometer
 # === USER CONFIGURATION ===
 
 # Input directory containing original PDB files to fix
-input_dir = '/path/to/your/pdbs_to_fix'   
+input_dir = '/Users/dilrana/Desktop/Kuczera/RGDdockedtop10PRODIGY/targets'   
 
 # Temporary directory to save fixed PDB files before conversion
-fixed_pdb_dir = '/path/to/your/fixed_pdbs' 
+fixed_pdb_dir = '/Users/dilrana/Desktop/Kuczera/RGDdockedtop10PRODIGY/fixedtargets' 
 os.makedirs(fixed_pdb_dir, exist_ok=True)
 
 # Output directory for final .mol files
-mol_output_dir = '/path/to/your/mols_converted'  
+mol_output_dir = '/Users/dilrana/Desktop/Kuczera/RGDdockedtop10PRODIGY/molfiles'  
 os.makedirs(mol_output_dir, exist_ok=True)
 
 # PDBFixer settings
 add_missing_residues = True                 # Fix missing residues in middle of chains
-keep_heterogens_option = True               # True to keep water, False for none
+keep_heterogens_option = True               # True to keep water?, False for none
 ph_value = 7.4                             # pH for adding hydrogens
 
-# Water box settings (optional, comment out if not needed)
-# Add water box surrounding the system
-add_water_box = False
-water_box_size = nanometer * (4, 4, 4)     # Box size in nanometers
-# Ion settings (only if water box added)
-positive_ion = 'Na+'
-negative_ion = 'Cl-'
-ionic_strength = 0.15                      # molar
-
-# ------------------------
+# Add water box/ion options here (optional)------------------------
 
 # Step 1: Batch fix PDB files using PDBFixer
 for filename in os.listdir(input_dir):
@@ -66,10 +57,7 @@ for filename in os.listdir(input_dir):
     
     fixer.addMissingHydrogens(ph_value)
     
-    # Optional: Add water box and ions
-    if add_water_box:
-        fixer.addSolvent(water_box_size, positiveIon=positive_ion, negativeIon=negative_ion,
-                         ionicStrength=ionic_strength)
+    # Optional: Code for Adding water box and ions goes here
     
     # Save fixed PDB
     with open(fixed_file, 'w') as out_file:
