@@ -12,7 +12,7 @@ for filename in os.listdir(input_dir):
         pdb_file = os.path.join(input_dir, filename)
         mol_file = os.path.join(output_dir, os.path.splitext(filename)[0] + '.mol')
         # Run obabel conversion
-        cmd = ['obabel', '-ipdb', pdb_file, '-omol', '-O', mol_file]
+        cmd = ['obabel', '-ipdb', pdb_file, '-omol', '-O', mol_file] 
         print(f"Converting {filename} → {os.path.basename(mol_file)}")
         subprocess.run(cmd, check=True)
 
