@@ -1,6 +1,6 @@
 import os
 import subprocess
-from pdbfixer import PDBFixer
+from pdbfixer import pdbfixer
 from openmm.app import PDBFile
 from openmm.unit import nanometer
 
