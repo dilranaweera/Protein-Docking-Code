@@ -1,8 +1,8 @@
 import os
 import subprocess
-from pdbfixer import pdbfixer
 from openmm.app import PDBFile
 from openmm.unit import nanometer
+from pdbfixer import pdbfixer
 
 # === USER CONFIGURATION ===
 
