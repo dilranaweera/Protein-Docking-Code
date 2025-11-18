@@ -1,8 +1,8 @@
 #!/bin/zsh
 
 # ---- USER PARAMETERS ----
-USER="dil2024"
-REMOTE_HOST="dil2024@10.98.88.6"
+REMOTE_USER="dil2024"
+REMOTE_HOST="10.98.8.66"
 REMOTE_BASE="/data4/jhoopes/First4kbackup"
 LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
 
@@ -21,10 +21,20 @@ dirs=(
 "TNW_main" "WKK_main"
 )
 
-echo "Starting parallel rsync download..."
-export USER REMOTE_HOST REMOTE_BASE LOCAL_BASE
+export REMOTE_USER
+export REMOTE_HOST
+export REMOTE_BASE
+export LOCAL_BASE
 
-printf "%s\n" "${dirs[@]}" | parallel -j $JOBS --eta \
-  'rsync -avz "${USER}@${REMOTE_HOST}:${REMOTE_BASE}/{}/" "${LOCAL_BASE}/{}/"'
+parallel --eta -j 8 '
+    peptide={}
+    remote_path="${REMOTE_BASE}/${peptide}_main/"
+    local_path="${LOCAL_BASE}/${peptide}_main/"
+
+    echo "Downloading $remote_path ..."
+    rsync -avz --progress -e ssh \
+        "${REMOTE_USER}@${REMOTE_HOST}:${remote_path}" \
+        "${local_path}"
+' ::: "${peptides[@]}"
 
 echo "✔️ Parallel rsync completed."
