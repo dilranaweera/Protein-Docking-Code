@@ -120,8 +120,6 @@ EOF
 
   # 4) Monitor progress by polling local file count while sftp runs
   downloaded=0
-  spinner=( '|' '/' '-' '\' )
-  spin_idx=0
   start_time=$(date +%s)
   while kill -0 "${sftp_pid}" 2>/dev/null; do
     # count files in local dir (regular files only)
