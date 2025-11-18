@@ -118,23 +118,6 @@ EOF
   sftp -oControlPath="${CTRL_SOCK}" -b "${batchfile}" "${REMOTE_USER}@${REMOTE_HOST}" >> "${DIR_LOG}" 2>&1 &
   sftp_pid=$!
 
-  # 4) Monitor progress by polling local file count while sftp runs
-  downloaded=0
-  start_time=$(date +%s)
-  while kill -0 "${sftp_pid}" 2>/dev/null; do
-    # count files in local dir (regular files only)
-    downloaded_raw=$(find "${local_dir}" -type f 2>/dev/null | wc -l)
-    downloaded=$(echo "${downloaded_raw}" | tr -d '[:space:]')
-    # print progress bar
-    progress_bar "${downloaded}" "${remote_total}" 40 " ${d}"
-    # small spinner to show activity
-    printf " %s" "${spinner[spin_idx]}"
-    spin_idx=$(( (spin_idx + 1) % ${#spinner[@]} ))
-    sleep ${POLL_INTERVAL}
-    # erase spinner char (move back)
-    printf "\b"
-  done
-
   # wait to capture exit code
   wait "${sftp_pid}"
   sftp_status=$?
