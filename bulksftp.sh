@@ -126,7 +126,6 @@ EOF
   final_downloaded_raw=$(find "${local_dir}" -type f 2>/dev/null | wc -l)
   final_downloaded=$(echo "${final_downloaded_raw}" | tr -d '[:space:]')
   end_time=$(date +%s)
-  elapsed=$((end_time - start_time))
 
   # cleanup batchfile
   rm -f "${batchfile}"
