@@ -75,14 +75,14 @@ EOF
 
   # Run SFTP
   sftp -oControlPath="${CTRL_SOCK}" -b "${batchfile}" "${REMOTE_USER}@${REMOTE_HOST}" >> "${DIR_LOG}" 2>&1
-  status=$?
+  exit_code=$?
 
   rm -f "${batchfile}"
 
-  if [[ $status -eq 0 ]]; then
+  if [[ exit_code -eq 0 ]]; then
     echo "[$(date)] SUCCESS: ${d}" | tee -a "${DIR_LOG}" "${MASTER_LOG}"
   else
-    echo "[$(date)] FAILED: ${d} exit code ${status}" | tee -a "${DIR_LOG}" "${MASTER_LOG}"
+    echo "[$(date)] FAILED: ${d} exit code ${exit_code}" | tee -a "${DIR_LOG}" "${MASTER_LOG}"
   fi
 
 done
