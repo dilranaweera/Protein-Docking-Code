@@ -3,11 +3,11 @@
 # ---- USER PARAMETERS ----
 REMOTE_USER="dil2024"
 REMOTE_HOST="10.98.8.66"
-REMOTE_BASE="/data4/jhoopes/First4kbackup"
+REMOTE_BASE="/data4/jhoopes/Second4kbackup"
 LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
 
 # Number of parallel downloads
-JOBS=4  # Reduced from 10 (rsync with --progress can overwhelm terminal with many parallel jobs)
+JOBS=4
 
 # 100 peptide directories
 dirs=(
@@ -20,9 +20,6 @@ dirs=(
 "YRL_main" "PWK_main" "WWH_main" "SHK_main" "VGK_main" "YWQ_main" "TKF_main" "SKY_main" "WGR_main" "VKN_main" "WSW_main" "WNI_main" "WHN_main" "VWN_main"
 "TNW_main" "WKK_main"
 )
-
-# Create local base directory if it doesn't exist
-mkdir -p "$LOCAL_BASE"
 
 # Start ssh-agent if not running
 if [ -z "$SSH_AUTH_SOCK" ]; then
@@ -39,7 +36,7 @@ echo ""
 # Export variables for parallel
 export REMOTE_USER REMOTE_HOST REMOTE_BASE LOCAL_BASE
 
-# Use GNU parallel with better progress tracking
+# Use GNU parallel
 parallel --eta -j "$JOBS" --joblog rsync_joblog.txt --halt 1 '
     d={}
     remote_path="${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_BASE}/${d}/"
