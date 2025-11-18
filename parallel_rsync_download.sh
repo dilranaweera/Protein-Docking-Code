@@ -7,7 +7,7 @@ REMOTE_BASE="/data4/jhoopes/First4kbackup"
 LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
 
 # Number of parallel downloads
-JOBS=10
+JOBS=4  # Reduced from 10 (rsync with --progress can overwhelm terminal with many parallel jobs)
 
 # 100 peptide directories
 dirs=(
@@ -21,31 +21,47 @@ dirs=(
 "TNW_main" "WKK_main"
 )
 
+# Create local base directory if it doesn't exist
+mkdir -p "$LOCAL_BASE"
+
 # Start ssh-agent if not running
 if [ -z "$SSH_AUTH_SOCK" ]; then
     eval $(ssh-agent -s)
 fi
 
-# Add key or password
+# Add SSH key (will prompt for password if needed)
 ssh-add -t 3600 ~/.ssh/id_rsa 2>/dev/null
 
 echo "🔐 SSH-Agent running (password caching active)"
+echo "📊 Starting parallel rsync downloads ($JOBS parallel jobs)..."
+echo ""
 
+# Export variables for parallel
 export REMOTE_USER REMOTE_HOST REMOTE_BASE LOCAL_BASE
 
-parallel --eta -j "$JOBS" --joblog rsync_joblog.txt '
+# Use GNU parallel with better progress tracking
+parallel --eta -j "$JOBS" --joblog rsync_joblog.txt --halt 1 '
     d={}
-
-    remote_path="${REMOTE_BASE}/${d}/"
+    remote_path="${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_BASE}/${d}/"
     local_path="${LOCAL_BASE}/${d}/"
-
-    echo "⬇️  Downloading $remote_path"
-
-    rsync -avz --progress -e ssh \
-        "${REMOTE_USER}@${REMOTE_HOST}:${remote_path}" \
-        "${local_path}"
+    
+    echo "⬇️  [$(date +%H:%M:%S)] Downloading: $d"
+    
+    rsync -avz --progress --partial --stats -e "ssh -o ConnectTimeout=10" \
+        "$remote_path" \
+        "$local_path" 2>&1 | sed "s/^/    /"  # Indent rsync output for clarity
+    
+    if [ $? -eq 0 ]; then
+        echo "✅ Completed: $d"
+    else
+        echo "❌ Failed: $d"
+    fi
+    echo ""
 ' ::: "${dirs[@]}"
 
-echo "Sync completed!"
-echo "All files saved to: $LOCAL_BASE"
-echo "Log saved to: rsync_joblog.txt"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ Sync completed!"
+echo "📁 All files saved to: $LOCAL_BASE"
+echo "📋 Log saved to: rsync_joblog.txt"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
