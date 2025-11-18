@@ -4,7 +4,9 @@
 REMOTE_USER="dil2024"
 REMOTE_HOST="10.98.8.66"
 REMOTE_BASE="/data4/jhoopes/First4kbackup"
-LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
+LOCAL_BASE=/home/dil2024/lab/AMDres/Project_1fuv4g1m/results
+
+## "/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
 
 # Number of parallel downloads
 JOBS=10
