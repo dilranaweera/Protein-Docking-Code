@@ -11,7 +11,8 @@ JOBS=10
 
 # 100 peptide directories
 dirs=(
-"WKQ_main" "WRN_main" "WRQ_main" "QNW_main" "WWN_main" "RHF_main" "YQF_main" "RNW_main" "RQF_main" "QHW_main" "NWQ_main" "RKW_main" "RQW_main" "RFK_main"
+"WKQ_main" 
+##"WRN_main" "WRQ_main" "QNW_main" "WWN_main" "RHF_main" "YQF_main" "RNW_main" "RQF_main" "QHW_main" "NWQ_main" "RKW_main" "RQW_main" "RFK_main"
 ## "WKN_main" "RRQ_main" "RSW_main" "YNY_main" "WRM_main" "YSW_main" "YKV_main" "NRN_main" "WRK_main" "WQK_main" "YKY_main" "YKF_main" "RNF_main" "YNW_main"
 ## "RWQ_main" "VRK_main" "RNY_main" "WYQ_main" "YRF_main" "MNW_main" "WWI_main" "VWR_main" "VHK_main" "WYH_main" "QQK_main" "WRC_main" "WKW_main" "WRR_main"
 ## "WHK_main" "YKW_main" "YGK_main" "SKK_main" "MKR_main" "VFK_main" "YNF_main" "RRT_main" "WRG_main" "RWN_main" "WQY_main" "WKT_main" "WQF_main" "YWH_main"
