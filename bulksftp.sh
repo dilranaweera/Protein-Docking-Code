@@ -19,7 +19,7 @@ set -euo pipefail
 ### USER PARAMETERS
 
 REMOTE_USER="dil2024"
-REMOTE_HOST="10.98.88.6"                   # <-- host you ssh into
+REMOTE_HOST="10.98.8.66"                   # <-- host you ssh into
 REMOTE_BASE="/data4/jhoopes/Second4kbackup"  # <-- remote parent path containing XXX_main dirs
 LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25" # <-- where to save on your Mac
 LOG_DIR="${LOCAL_BASE}/logs"                 # master + per-dir logs
