@@ -7,7 +7,7 @@ REMOTE_BASE="/data4/jhoopes/Second4kbackup"
 LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
 
 # Number of parallel downloads
-JOBS=4
+JOBS=10
 
 # 100 peptide directories
 dirs=(
