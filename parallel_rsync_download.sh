@@ -4,9 +4,7 @@
 REMOTE_USER="dil2024"
 REMOTE_HOST="10.98.8.66"
 REMOTE_BASE="/data4/jhoopes/First4kbackup"
-LOCAL_BASE=/home/dil2024/lab/AMDres/Project_1fuv4g1m/results
-
-## "/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
+LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
 
 # Number of parallel downloads
 JOBS=10
@@ -23,20 +21,31 @@ dirs=(
 "TNW_main" "WKK_main"
 )
 
-export REMOTE_USER
-export REMOTE_HOST
-export REMOTE_BASE
-export LOCAL_BASE
+# Start ssh-agent if not running
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval $(ssh-agent -s)
+fi
 
-parallel --eta -j 8 '
-    peptide={}
-    remote_path="${REMOTE_BASE}/${peptide}_main/"
-    local_path="${LOCAL_BASE}/${peptide}_main/"
+# Add key or password
+ssh-add -t 3600 ~/.ssh/id_rsa 2>/dev/null
 
-    echo "Downloading $remote_path ..."
+echo "🔐 SSH-Agent running (password caching active)"
+
+export REMOTE_USER REMOTE_HOST REMOTE_BASE LOCAL_BASE
+
+parallel --eta -j "$JOBS" --joblog rsync_joblog.txt '
+    d={}
+
+    remote_path="${REMOTE_BASE}/${d}/"
+    local_path="${LOCAL_BASE}/${d}/"
+
+    echo "⬇️  Downloading $remote_path"
+
     rsync -avz --progress -e ssh \
         "${REMOTE_USER}@${REMOTE_HOST}:${remote_path}" \
         "${local_path}"
-' ::: "${peptides[@]}"
+' ::: "${dirs[@]}"
 
-echo "✔️ Parallel rsync completed."
+echo "Sync completed!"
+echo "All files saved to: $LOCAL_BASE"
+echo "Log saved to: rsync_joblog.txt"
