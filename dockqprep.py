@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     BASE_DIR = "/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"     # directory containing ligands
     OUTPUT_DIR = "/Users/dilrana/Desktop/Kuczera/DockQ_ready"
-    RECEPTOR = "/Users/dilrana/Desktop/Kuczera/4g1m_abcopy.pdb"
+    RECEPTOR = "/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25/4g1m_abcopy.pdb"
 
     if not os.path.isfile(RECEPTOR):
         print("ERROR: Receptor PDB missing:", RECEPTOR)
