@@ -27,7 +27,7 @@ def merge_receptor_and_ligand(receptor_file, ligand_file, output_file):
     tmp_lig = ligand_file + ".chainC"
 
     # step 1: rewrite ligand chain
-    rewrite_ligand_chain(ligand_file, tmp_lig)
+    rename_chain_to_C(ligand_file, tmp_lig)
 
     # step 2: concatenate
     with open(receptor_file, 'r') as rec, open(tmp_lig, 'r') as lig, open(output_file, 'w') as out:
