@@ -20,6 +20,7 @@ for log_file in log_files:
                 fnat = float(parts[7])
                 fnonnat = float(parts [9])
                 F1 = float (parts[11])
+                clashes = float(parts[13])
 
                 # Determine which interface:
                 if "mapping AC:AC" in line:
@@ -36,12 +37,13 @@ for log_file in log_files:
                     "LRMSD": LRMSD,
                     "fnat": fnat,
                     "fnonnat": fnonnat,
-                    "F1": F1
+                    "F1": F1,
+                    "clashes": clashes
                 }
                 rows.append(row)
 
 with open(SUMMARY_CSV, "w", newline="") as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=["ligand", "interface", "DockQ", "iRMSD", "LRMSD", "fnat","fnonnat","F1"])
+    writer = csv.DictWriter(csvfile, fieldnames=["ligand", "interface", "DockQ", "iRMSD", "LRMSD", "fnat","fnonnat","F1","clashes"])
     writer.writeheader()
     writer.writerows(rows)
 

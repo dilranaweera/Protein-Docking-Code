@@ -95,7 +95,7 @@ def main():
 
     # Save CSV summary
 SUMMARY_CSV = "DockQ_summary.csv"
-LOG_DIR = "path/to/dockq/logs"  # change to your log directory
+LOG_DIR = "/Users/dilrana/Desktop/Kuczera/DockQ_logs"
 
 rows = []
 log_files = glob.glob(f"{LOG_DIR}/*.log")
@@ -110,6 +110,10 @@ for log_file in log_files:
                 iRMSD = float(parts[3])
                 LRMSD = float(parts[5])
                 fnat = float(parts[7])
+                fnonnat = float(parts [9])
+                F1 = float (parts[11])
+                clashes = float(parts[13])
+
                 # Determine which interface:
                 if "mapping AC:AC" in line:
                     interface = "A–C"
@@ -123,17 +127,19 @@ for log_file in log_files:
                     "DockQ": dockq,
                     "iRMSD": iRMSD,
                     "LRMSD": LRMSD,
-                    "fnat": fnat
+                    "fnat": fnat,
+                    "fnonnat": fnonnat,
+                    "F1": F1,
+                    "clashes": clashes
                 }
                 rows.append(row)
 
 with open(SUMMARY_CSV, "w", newline="") as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=["ligand", "interface", "DockQ", "iRMSD", "LRMSD", "fnat"])
+    writer = csv.DictWriter(csvfile, fieldnames=["ligand", "interface", "DockQ", "iRMSD", "LRMSD", "fnat","fnonnat","F1","clashes"])
     writer.writeheader()
     writer.writerows(rows)
 
 print(f"Summary CSV:  {SUMMARY_CSV}")
-
 
 if __name__ == "__main__":
     main()
