@@ -12,7 +12,8 @@ REMOTE_USER="dil2024"
 REMOTE_HOST="10.98.8.66"
 REMOTE_BASES=(
 "/data4/jhoopes/First4kbackup" 
-"/data4/jhoopes/Second4kbackup")
+"/data4/jhoopes/Second4kbackup"
+)
 
 # Change to where you want downloads placed on Mac
 LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/RGD/ADCPtop100lig11.22.25"
