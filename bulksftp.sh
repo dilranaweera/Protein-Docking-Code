@@ -66,6 +66,13 @@ for d in "${dirs[@]}"; do
 
   mkdir -p "${local_dir}"
 
+    if ! remote_dir_exists "${remote_dir}"; then
+        echo "[$(date)] SKIP: ${d} (not found in ${base})" >> "${DIR_LOG}"
+        continue
+    fi
+
+    echo "[$(date)] FOUND in ${base}. Starting download…" >> "${DIR_LOG}"
+
   # SFTP batch file to get everything inside the directory
   batchfile=$(mktemp)
   cat > "${batchfile}" <<EOF
