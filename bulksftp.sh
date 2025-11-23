@@ -10,28 +10,56 @@ set -euo pipefail
 ### ----------------------
 REMOTE_USER="dil2024"
 REMOTE_HOST="10.98.8.66"
-REMOTE_BASE="/data4/jhoopes/First4kbackup"
+REMOTE_BASE="/data4/jhoopes/Second4kbackup"
 
 # Change to where you want downloads placed on Mac
-LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/RGD/ADCPtop100lig11.22.25"
+LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/RGD/PRODtop100lig11.22.25"
 
 LOG_DIR="${LOCAL_BASE}/logs"
 
 # list of directories
 dirs=(
- "KKK_main" "KYK_main" "KNK_main" "KRK_main" "KRW_main" "FKR_main" "RKK_main" "KLW_main"
- "KKY_main" "RRK_main" "WKK_main" "HKK_main" "KRF_main" "GKK_main" "GKW_main" "FKK_main"
- "KKI_main" "WKR_main" "KRR_main" "KCK_main" "KGW_main" "KFW_main" "KFK_main" "LKK_main"
- "KKW_main" "KKF_main" "WYK_main" "RYK_main" "FKW_main" "KGK_main" "FRK_main" "KQK_main"
- "KCW_main" "RKR_main" "FNK_main" "LKW_main" "KLY_main" "RWK_main" "FWK_main" "KGY_main"
- "KNY_main" "EKR_main" "KYR_main" "WRK_main" "WFK_main" "WKW_main" "RKY_main" "WWK_main"
- "YKK_main" "KYF_main" "KWK_main" "KNR_main" "MKK_main" "WGK_main" "RMK_main" "KKM_main"
- "HYK_main" "RKF_main" "YKR_main" "HKR_main" "KYY_main" "KLR_main" "KKR_main" "KHW_main"
- "KKS_main" "GWK_main" "YWK_main" "QKW_main" "KLK_main" "FRW_main" "FQK_main" "GCK_main"
- "YYK_main" "WKY_main" "RCK_main" "RRW_main" "RNK_main" "FFK_main" "KKN_main" "KVR_main"
- "KWR_main" "MRK_main" "RQK_main" "FYW_main" "GRK_main" "HKW_main" "FKF_main" "FRR_main"
- "GVK_main" "RKW_main" "WRR_main" "RLK_main" "KNW_main" "KTW_main" "GNK_main" "GYK_main"
- "KFH_main" "WQK_main" "QYK_main" "RCW_main" 
+"MHR_main"
+"MHT_main"
+"MHY_main"
+"MKT_main"
+"MKV_main"
+"MLQ_main"
+"MQW_main"
+"MRN_main"
+"MRT_main"
+"MWQ_main"
+"NWQ_main"
+"QHW_main"
+"QNL_main"
+"QNW_main"
+"QQC_main"
+"QTF_main"
+"RFG_main"
+"RHF_main"
+"RLG_main"
+"RNW_main"
+"RQF_main"
+"RTF_main"
+"SQY_main"
+"TQF_main"
+"VHH_main"
+"VRG_main"
+"VRN_main"
+"VRQ_main"
+"WCG_main"
+"WHT_main"
+"WKQ_main"
+"WND_main"
+"WNN_main"
+"WNS_main"
+"WPE_main"
+"WRD_main"
+"WRN_main"
+"WRQ_main"
+"WWN_main"
+"YHY_main"
+"YQF_main"
 )
 
 
@@ -65,13 +93,6 @@ for d in "${dirs[@]}"; do
   local_dir="${LOCAL_BASE}/${d}"
 
   mkdir -p "${local_dir}"
-
-    if ! remote_dir_exists "${remote_dir}"; then
-        echo "[$(date)] SKIP: ${d} (not found in ${base})" >> "${DIR_LOG}"
-        continue
-    fi
-
-    echo "[$(date)] FOUND in ${base}. Starting download…" >> "${DIR_LOG}"
 
   # SFTP batch file to get everything inside the directory
   batchfile=$(mktemp)
