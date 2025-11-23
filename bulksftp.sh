@@ -10,7 +10,7 @@ set -euo pipefail
 ### ----------------------
 REMOTE_USER="dil2024"
 REMOTE_HOST="10.98.8.66"
-REMOTE_BASE=("/data4/jhoopes/First4kbackup")
+REMOTE_BASE="/data4/jhoopes/First4kbackup"
 
 # Change to where you want downloads placed on Mac
 LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/RGD/ADCPtop100lig11.22.25"
