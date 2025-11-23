@@ -1,7 +1,7 @@
 #!/bin/zsh
 # bulk_sftp_simple.zsh
-# Clean and robust sequential SFTP downloader with per-directory logs
-# and single-password SSH ControlMaster session.
+# Clean and robust sequential SFTP downloader with per-directory logs and single-password SSH ControlMaster session.
+# Inputs: REMOTE USER, HOST, BASES. LOCAL BASES, dir (directories you want to pull from in remote system)
 
 set -euo pipefail
 
@@ -10,25 +10,30 @@ set -euo pipefail
 ### ----------------------
 REMOTE_USER="dil2024"
 REMOTE_HOST="10.98.8.66"
-REMOTE_BASE="/data4/jhoopes/Second4kbackup"
+REMOTE_BASES=(
+"/data4/jhoopes/First4kbackup" 
+"/data4/jhoopes/Second4kbackup")
 
 # Change to where you want downloads placed on Mac
-LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/ADCPtop100outputfiles11.17.25"
+LOCAL_BASE="/Users/dilrana/Desktop/Kuczera/RGD/ADCPtop100lig11.22.25"
 
 LOG_DIR="${LOCAL_BASE}/logs"
 
 # list of directories
 dirs=(
-"WKQ_main" "WRN_main" "WRQ_main" "QNW_main" "WWN_main" "RHF_main" "YQF_main" "RNW_main" "RQF_main" "QHW_main"
-"NWQ_main" "RKW_main" "RQW_main" "RFK_main" "WKN_main" "RRQ_main" "RSW_main" "YNY_main" "WRM_main" "YSW_main"
-"YKV_main" "NRN_main" "WRK_main" "WQK_main" "YKY_main" "YKF_main" "RNF_main" "YNW_main" "RWQ_main" "VRK_main"
-"RNY_main" "WYQ_main" "YRF_main" "MNW_main" "WWI_main" "VWR_main" "VHK_main" "WYH_main" "QQK_main" "WRC_main"
-"WKW_main" "WRR_main" "WHK_main" "YKW_main" "YGK_main" "SKK_main" "MKR_main" "VFK_main" "YNF_main" "RRT_main"
-"WRG_main" "RWN_main" "WQY_main" "WKT_main" "WQF_main" "YWH_main" "MGR_main" "YGR_main" "WTW_main" "RRH_main"
-"YRH_main" "WRI_main" "YRN_main" "VFR_main" "NRQ_main" "RYK_main" "YWK_main" "MRK_main" "RHK_main" "WKF_main"
-"WWR_main" "NKW_main" "YRR_main" "WQR_main" "YRY_main" "RRN_main" "QNF_main" "MHK_main" "MKN_main" "WNF_main"
-"QKF_main" "YKM_main" "YLY_main" "YQY_main" "YRL_main" "PWK_main" "WWH_main" "SHK_main" "VGK_main" "YWQ_main"
-"TKF_main" "SKY_main" "WGR_main" "VKN_main" "WSW_main" "WNI_main" "WHN_main" "VWN_main" "TNW_main" "WKK_main"
+ "KKK_main" "KYK_main" "KNK_main" "KRK_main" "KRW_main" "FKR_main" "RKK_main" "KLW_main"
+ "KKY_main" "RRK_main" "WKK_main" "HKK_main" "KRF_main" "GKK_main" "GKW_main" "FKK_main"
+ "KKI_main" "WKR_main" "KRR_main" "KCK_main" "KGW_main" "KFW_main" "KFK_main" "LKK_main"
+ "KKW_main" "KKF_main" "WYK_main" "RYK_main" "FKW_main" "KGK_main" "FRK_main" "KQK_main"
+ "KCW_main" "RKR_main" "FNK_main" "LKW_main" "KLY_main" "RWK_main" "FWK_main" "KGY_main"
+ "KNY_main" "EKR_main" "KYR_main" "WRK_main" "WFK_main" "WKW_main" "RKY_main" "WWK_main"
+ "YKK_main" "KYF_main" "KWK_main" "KNR_main" "MKK_main" "WGK_main" "RMK_main" "KKM_main"
+ "HYK_main" "RKF_main" "YKR_main" "HKR_main" "KYY_main" "KLR_main" "KKR_main" "KHW_main"
+ "KKS_main" "GWK_main" "YWK_main" "QKW_main" "KLK_main" "FRW_main" "FQK_main" "GCK_main"
+ "YYK_main" "WKY_main" "RCK_main" "RRW_main" "RNK_main" "FFK_main" "KKN_main" "KVR_main"
+ "KWR_main" "MRK_main" "RQK_main" "FYW_main" "GRK_main" "HKW_main" "FKF_main" "FRR_main"
+ "GVK_main" "RKW_main" "WRR_main" "RLK_main" "KNW_main" "KTW_main" "GNK_main" "GYK_main"
+ "KFH_main" "WQK_main" "QYK_main" "RCW_main" 
 )
 
 
