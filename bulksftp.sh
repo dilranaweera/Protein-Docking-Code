@@ -64,7 +64,7 @@ for d in "${dirs[@]}"; do
   echo "Downloading: ${d}"
   DIR_LOG="${LOG_DIR}/${d}.log"
 
-  remote_dir="${REMOTE_BASE}/${d}"
+  remote_dir="${REMOTE_BASES}/${d}"
   local_dir="${LOCAL_BASE}/${d}"
 
   mkdir -p "${local_dir}"
